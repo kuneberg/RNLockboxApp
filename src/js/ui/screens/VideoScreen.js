@@ -1,22 +1,14 @@
 import * as React from 'react';
-import { View, Text, Button, Image, Dimensions, SafeAreaView, FlatList } from 'react-native';
-import Styles from '../styles';
+import { SafeAreaView } from 'react-native';
 import core from '../../core';
-import { observer } from 'mobx-react';
-import LoadingView from '../components/LoadingView';
-
 import Video from 'react-native-video';
 
 export default class VideoScreen extends React.Component {
 
     render() {
-        // console.log('props: ' + JSON.stringify(this.props, null, 2))
-        let {id, item} = this.props.route.params
-        console.log('id: ' + id + ' ' + JSON.stringify(item, null, 2))
+        let {item} = this.props.route.params
         
         let source = core.createReactSource(item)
-        source.headers["Connection"] = "keep-alive"
-        //let source = {uri: 'http://192.168.1.3/xxx.mp4'}
         
         console.log('source: ' + JSON.stringify(source, null, 2))
         

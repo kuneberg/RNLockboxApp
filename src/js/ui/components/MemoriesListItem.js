@@ -137,26 +137,26 @@ export default class MemoriesListItem extends React.Component {
 
     renderImageItem(carouselItem, itemHeight, memoryItem) {
         let item = carouselItem.item;
-        let source = core.createReactImageSource(item)
+        let source = core.createThumbSource(item)
         // console.log('KEY: ' + item.id)
-        return <View key={item.fileId} style={style.imageFrame.style}>
+        return <View key={`thumb-${memoryItem.id}-${item.fileId}`} style={style.imageFrame.style}>
             <Image style={style.image.style} source={source} />
         </View>
     }
 
     renderVideoItem(carouselItem, itemHeight, memoryItem) {
         let item = carouselItem.item;
-        let source = core.createReactImageSource(item)
+        let source = core.createThumbSource(item)
         // console.log('KEY: ' + item.id)
-        return <View key={item.fileId} style={[style.imageFrame.style, { flex: 1, justifyContent: 'center', backgroundColor: 'gray' }]}>
+        return <View key={`thumb-${memoryItem.id}-${item.fileId}`} style={[style.imageFrame.style, { flex: 1, justifyContent: 'center', backgroundColor: 'gray' }]}>
             <Image style={style.image.style} source={source} />
         </View>
     }
 
     renderUnknownItem(carouselItem, itemHeight, memoryItem) {
         let item = carouselItem.item;
-        let source = core.createReactImageSource(item)
-        return <View key={item.fileId} style={style.imageFrame.style}>
+        let source = core.createThumbSource(item)
+        return <View key={`thumb-${memoryItem.id}-${item.fileId}`} style={style.imageFrame.style}>
             <Image style={style.image.style} source={source} />
         </View>
     }
@@ -176,7 +176,7 @@ export default class MemoriesListItem extends React.Component {
             }
 
             childs.push(
-                    <TouchableOpacity onPress={() => this.onPress(memoryItem)}>
+                    <TouchableOpacity key={`thumb-${memoryItem.id}-${item.fileId}`} onPress={() => this.onPress(memoryItem)}>
                         {thumbnail}
                     </TouchableOpacity>
                 )

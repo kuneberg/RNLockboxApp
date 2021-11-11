@@ -201,6 +201,7 @@ export default class ApiClient {
             uri: url,
             headers: {
                 'Authorization': this.authToken,
+                'Connection': 'keep-alive'
             }
         }
         return source;

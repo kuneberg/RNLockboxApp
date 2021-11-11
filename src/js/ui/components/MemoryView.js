@@ -129,9 +129,8 @@ export default class MemoryView extends React.Component {
         core.navigate('Image', { item })
     }
 
-    play(id, item) {
-        console.log('play: ' + id + ' ' + JSON.stringify(item))
-        core.navigate('Video', { id, item })
+    viewVideo(item) {
+        core.navigate('Video', { item })
     }
 
     renderImageItem(carouselItem, itemHeight, memoryItem) {
@@ -146,12 +145,10 @@ export default class MemoryView extends React.Component {
     renderVideoItem(carouselItem, itemHeight, memoryItem) {
         let item = carouselItem.item;
         let source = core.createThumbSource(item)
-        return <View key={item.fileId} style={[style.imageFrame.style, { flex: 1, justifyContent: 'center', backgroundColor: 'gray' }]}>
+        return <TouchableOpacity onPress={()=>this.viewVideo(item)}><View key={item.fileId} style={style.imageFrame.style}>
             <Image style={style.image.style} source={source} />
-            {/* <Icon style={{alignSelf:'center'}} name={'video-camera'} size={64} color={'#aaa'}
-                onPress={()=>this.play(memoryItem.id, item)}
-            /> */}
         </View>
+      </TouchableOpacity>
     }
 
     renderUnknownItem(carouselItem, itemHeight, memoryItem) {

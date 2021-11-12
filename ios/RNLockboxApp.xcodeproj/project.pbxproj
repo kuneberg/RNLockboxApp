@@ -480,12 +480,13 @@
 					"$(SDKROOT)/usr/lib/swift",
 					"$(inherited)",
 				);
+				MARKETING_VERSION = 0.6;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.memoryuploader.memoryuploader;
 				PRODUCT_NAME = RNLockboxApp;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "RNLockboxApp-Bridging-Header.h";
@@ -514,12 +515,13 @@
 					"$(SDKROOT)/usr/lib/swift",
 					"$(inherited)",
 				);
+				MARKETING_VERSION = 0.6;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.memoryuploader.memoryuploader;
 				PRODUCT_NAME = RNLockboxApp;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "RNLockboxApp-Bridging-Header.h";

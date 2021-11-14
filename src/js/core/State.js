@@ -25,10 +25,10 @@ export default class State {
         //     name: 'Alex\'s Lockbox',
         //     address: '192.168.1.3'
         // },
-        {
-            name: 'Maks\'s Lockbox',
-            address: '192.168.1.22'
-        }
+        // {
+        //     name: 'Maks\'s Lockbox',
+        //     address: '192.168.1.22'
+        // }
     ]
     
     @observable _discoveryStarted = false

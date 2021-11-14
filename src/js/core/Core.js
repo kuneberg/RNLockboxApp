@@ -87,14 +87,14 @@ export default class Core {
         this.zeroconf.on('remove', (s) => {
             console.log('[discovery] removed: ' + s)
             this._state.lockboxHosts = [
-                {
-                    name: 'Alex\'s Lockbox',
-                    address: '192.168.1.3'
-                },
-                {
-                    name: 'Maks\'s Lockbox',
-                    address: '192.168.1.7'
-                },
+                // {
+                //     name: 'Alex\'s Lockbox',
+                //     address: '192.168.1.3'
+                // },
+                // {
+                //     name: 'Maks\'s Lockbox',
+                //     address: '192.168.1.7'
+                // },
             ];
         })
     }

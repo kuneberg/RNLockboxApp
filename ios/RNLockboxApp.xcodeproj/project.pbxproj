@@ -466,6 +466,7 @@
 			baseConfigurationReference = B75E0F6971951CCF570E9C87 /* Pods-RNLockboxApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = RNLockboxApp/RNLockboxApp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
@@ -486,7 +487,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.memoryuploader.memoryuploader;
+				PRODUCT_BUNDLE_IDENTIFIER = com.memoresse.RNLockboxApp;
 				PRODUCT_NAME = RNLockboxApp;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "RNLockboxApp-Bridging-Header.h";
@@ -502,6 +503,7 @@
 			baseConfigurationReference = A1563DA5D2895B58993B8A49 /* Pods-RNLockboxApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = RNLockboxApp/RNLockboxApp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
@@ -521,7 +523,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.memoryuploader.memoryuploader;
+				PRODUCT_BUNDLE_IDENTIFIER = com.memoresse.RNLockboxApp;
 				PRODUCT_NAME = RNLockboxApp;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "RNLockboxApp-Bridging-Header.h";

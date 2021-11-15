@@ -35,6 +35,23 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_lockbox._tcp</string>
+		<string>_lockbox._udp</string>
+		<string>_lockbox._tcp.</string>
+		<string>_lockbox._udp.</string>
+		<string>lockbox._tcp</string>
+		<string>lockbox._udp</string>
+		<string>lockbox._tcp.</string>
+		<string>lockbox._udp.</string>
+		<string>_http._tcp.</string>
+		<string>_http._udp.</string>
+		<string>_http._tcp</string>
+		<string>_http._udp</string>
+	</array>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Describe why you want to use local network discovery here</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -75,22 +92,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSBonjourServices</key>
-	<array>
-		<string>_lockbox._tcp</string>
-		<string>_lockbox._udp</string>
-		<string>_lockbox._tcp.</string>
-		<string>_lockbox._udp.</string>
-		<string>lockbox._tcp</string>
-		<string>lockbox._udp</string>
-		<string>lockbox._tcp.</string>
-		<string>lockbox._udp.</string>
-		<string>_http._tcp.</string>
-		<string>_http._udp.</string>
-		<string>_http._tcp</string>
-        <string>_http._udp</string>
-	</array>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>Describe why you want to use local network discovery here</string>
 </dict>
 </plist>

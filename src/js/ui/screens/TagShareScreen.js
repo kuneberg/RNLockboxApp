@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { View, Text, Button, FlatList, RefreshControl, SafeAreaView, SectionList } from 'react-native';
+import { View, Text, Button, FlatList, SafeAreaView } from 'react-native';
 import Styles from '../styles';
 import core from '../../core';
 import { observer } from 'mobx-react';
-import { HeaderBackButton } from '@react-navigation/native-stack';
-import LoadingView from '../components/LoadingView';
 import AccountListItem from '../components/AccountListItem';
+import LoadingView from '../components/LoadingView';
 
 const style = {
   safeArea: {
@@ -81,7 +80,7 @@ export default class TagShareScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      id: '',
+      tag: {},
       sharedWith: new Set()
     };
   }
@@ -89,7 +88,7 @@ export default class TagShareScreen extends React.Component {
   componentDidMount() {
     core.loadAccounts();
     let { tag } = this.props.route.params;
-    this.setState({...this.state, id: tag.id, sharedWith: new Set(tag.sharedWith)})
+    this.setState({...this.state, tag: tag, sharedWith: new Set(tag.sharedWith)})
 
     this.props.navigation.setOptions({
       headerRight: () => <Button onPress={() => this.onSavePress()} title="Save" />,
@@ -98,13 +97,8 @@ export default class TagShareScreen extends React.Component {
   }
 
   async onSavePress() {
-    let tags = toJS(core.state.tags)
-    let tag = tags.find(item => item.id === this.state.id)
-    
-    tag.sharedWith = [...this.state.sharedWith]
-    core.state.tags = tags;
-    console.log(tags)
-    await core.saveTags()
+    this.state.tag.sharedWith = [...this.state.sharedWith]
+    await core.saveTag(this.state.tag)
   }
 
   onAccountSelected(account, isSelected) {
@@ -115,8 +109,6 @@ export default class TagShareScreen extends React.Component {
       sharedWith.delete(account.id)
     }
 
-    console.log("la bla bla");
-    console.log(sharedWith);
     this.setState({
       ...this.state,
       sharedWith
@@ -140,9 +132,7 @@ export default class TagShareScreen extends React.Component {
   }
 
   renderAccount(account, index) {
-    // console.log('host: ' + JSON.stringify(host,null,2))
     let first = index == 0
-    console.log("")
     let isSelected = this.state.sharedWith.has(account.id);
     return (
         <AccountListItem account={account} first={first} selected={isSelected} onPress={(a) => {this.onAccountSelected(a, !isSelected)}}/>

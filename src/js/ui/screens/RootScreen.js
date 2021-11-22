@@ -17,15 +17,26 @@ export default class RootScreen extends React.Component {
 
     getContent() {
         console.log(`authenticated on screen: ${core.state.authenticated}`)
-        if (core.state.authenticated) {
-            return (
-                <Root.Navigator mode="modal" initialRouteName="HomeRoot">
-                    <Root.Screen name="HomeRoot" component={HomeRootNavScreen} options={{ headerShown: false }}></Root.Screen>
-                </Root.Navigator>
-            )
-        } else {
-            return <AuthRootScreen></AuthRootScreen>
-        }
+
+
+        let initialRouteName = core.state.authenticated ? "HomeRoot" : "AuthRoot"
+        // if (core.state.authenticated) {
+        //     return (
+        //         <Root.Navigator mode="modal" initialRouteName="HomeRoot">
+        //             <Root.Screen name="HomeRoot" component={HomeRootNavScreen} options={{ headerShown: false }}></Root.Screen>
+        //             <Root.Screen name="AuthRoot" component={AuthRootScreen} options={{ headerShown: false }}></Root.Screen>
+        //         </Root.Navigator>
+        //     )
+        // } else {
+        //     return <AuthRootScreen></AuthRootScreen>
+        // }
+
+        return (
+            <Root.Navigator mode="modal" initialRouteName={'HomeRoot'}>
+                {/* <Root.Screen name="AuthRoot" component={AuthRootScreen} options={{ headerShown: false }}></Root.Screen> */}
+                <Root.Screen name="HomeRoot" component={HomeRootNavScreen} options={{ headerShown: false }}></Root.Screen>
+            </Root.Navigator>
+        )
     }
 
     render() {

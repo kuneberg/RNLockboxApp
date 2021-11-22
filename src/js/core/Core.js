@@ -108,7 +108,19 @@ export default class Core {
     }
 
     navigate(name, params) {
-        this.navigationRef.current?.navigate(name, params);
+        this.navigationRef.current?.navigate(name, params)
+    }
+
+    navigateReset(name, params) {
+        // this.navigationRef.current?.pop(999)
+        this.navigationRef.current?.reset({
+            index: 1, 
+            routes: [
+                {
+                    name, params
+                }
+            ]
+        })
     }
 
     goBack() {
@@ -127,8 +139,9 @@ export default class Core {
             this.state.authenticated = result.success
             this.state.authErrorMsg = result.message
             this.state.accId = result.success ? result.data.id : null
+            this.navigateReset('Home')
         } catch (e) {
-            this.navigate('ApiUnavailable')
+            this.navigateReset('ApiUnavailable')
         }
     }
 
@@ -147,6 +160,7 @@ export default class Core {
         this.state.authenticated = result.success
         this.state.authErrorMsg = result.message
         this.state.accId = result.success ? result.data.id : null
+        this.navigateReset('Home')
     }
 
     async signOut() {
@@ -157,6 +171,7 @@ export default class Core {
         this.state.tags = null
         this.state.authErrorMsg = null
         this.state.accId = null
+        this.navigateReset('Discover')
     }
 
     async cahngePassword(oldPassword, newPassword) {

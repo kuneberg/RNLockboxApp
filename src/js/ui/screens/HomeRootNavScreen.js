@@ -13,6 +13,10 @@ import HomeScreen from './HomeScreen';
 import TagEditScreen from './TagEditScreen';
 import TagShareScreen from './TagShareScreen';
 import ApiUnavailableScreen from "./ApiUnavailableScreen";
+import SignInScreen from './SignInScreen';
+import SignUpScreen from './SignUpScreen';
+import ResetPasswordScreen from './ResetPasswordScreen';
+import DiscoverScreen from './DiscoverScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,7 +27,13 @@ export default class HomeRootNavScreen extends React.Component {
     }
 
     render() {
-        return <Stack.Navigator initialRouteName="Home">
+        let initialRouteName = core.state.authenticated ? "Home" : "Discover"
+        return <Stack.Navigator initialRouteName={initialRouteName}>
+            <Stack.Screen name="Discover" component={DiscoverScreen} options={{headerShown: false}}/>
+            <Stack.Screen name="SignIn" component={SignInScreen} options={{...styles.theme.stackHeaderOptions, title: 'Sign In' }}/>
+            <Stack.Screen name="SignUp" component={SignUpScreen} options={{...styles.theme.stackHeaderOptions, title: 'Sign Up' }}/>
+            <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} options={{...styles.theme.stackHeaderOptions, title: 'Reset Password' }}/>
+
             <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Memory" component={MemoryScreen} options={{ ...styles.theme.stackHeaderOptions, title: 'Memory' }} />
             <Stack.Screen name="MemoryEditor" component={MemoryEditorScreen} options={{ ...styles.theme.stackHeaderOptions, title: 'Edit Memory' }} />

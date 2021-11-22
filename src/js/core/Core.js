@@ -121,11 +121,15 @@ export default class Core {
     }
 
     async signIn(email, password) {
-        let result = await this.api.login(email, password)
-        console.log('authenticated ' + result.success)
-        this.state.authenticated = result.success
-        this.state.authErrorMsg = result.message
-        this.state.accId = result.success ? result.data.id : null
+        try {
+            let result = await this.api.login(email, password)
+            console.log('authenticated ' + result.success)
+            this.state.authenticated = result.success
+            this.state.authErrorMsg = result.message
+            this.state.accId = result.success ? result.data.id : null
+        } catch (e) {
+            this.navigate('ApiUnavailable')
+        }
     }
 
     async signUp(email, password) {
@@ -172,7 +176,11 @@ export default class Core {
     }
 
     async loadTags() {
-        this.state.tags = await this.api.loadTags();
+        try {
+            this.state.tags = await this.api.loadTags();
+        } catch (e) {
+            this.navigate('ApiUnavailable')
+        }
     }
 
     async loadTagsIfNeeded() {
@@ -381,7 +389,7 @@ export default class Core {
                 if (info == null || info.success != true) {
                     continue
                 }
-                
+
                 let prevHosts = toJS(this.state.lockboxHosts).filter(h => h.address != address)
 
                 this.state.lockboxHosts = [

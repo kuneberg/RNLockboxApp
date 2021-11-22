@@ -8,6 +8,7 @@ import SignInScreen from './SignInScreen';
 import SignUpScreen from './SignUpScreen';
 import ResetPasswordScreen from './ResetPasswordScreen';
 import DiscoverScreen from './DiscoverScreen';
+import ApiUnavailableScreen from "./ApiUnavailableScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +26,7 @@ export default class AuthRootScreen extends React.Component {
                 <Stack.Screen name="SignIn" component={SignInScreen} options={{...styles.theme.stackHeaderOptions, title: 'Sign In' }}/>
                 <Stack.Screen name="SignUp" component={SignUpScreen} options={{...styles.theme.stackHeaderOptions, title: 'Sign Up' }}/>
                 <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} options={{...styles.theme.stackHeaderOptions, title: 'Reset Password' }}/>
+                <Stack.Screen name="ApiUnavailable" component={ApiUnavailableScreen} options={{ headerShown: false, navigateTo: 'Discover' }} />
             </Stack.Navigator>
         );
     }

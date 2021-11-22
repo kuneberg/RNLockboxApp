@@ -12,6 +12,7 @@ import ImageScreen from './ImageScreen';
 import HomeScreen from './HomeScreen';
 import TagEditScreen from './TagEditScreen';
 import TagShareScreen from './TagShareScreen';
+import ApiUnavailableScreen from "./ApiUnavailableScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +34,7 @@ export default class HomeRootNavScreen extends React.Component {
             <Stack.Screen name="Image" component={ImageScreen} options={{ ...styles.theme.stackHeaderOptions, title: 'Image' }} />
             <Stack.Screen name="TagEdit" component={TagEditScreen} options={{ headerShown: true, title: 'Edit Tag' }} />
             <Stack.Screen name="TagShare" component={TagShareScreen} options={{ headerShown: true, title: 'Share Tag' }} />
+            <Stack.Screen name="ApiUnavailable" component={ApiUnavailableScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
     }
 }

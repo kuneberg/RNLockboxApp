@@ -2,6 +2,7 @@ import axios from 'axios'
 import moment from 'moment'
 
 import TestData from "./TestData";
+import ApiUnavailableError from "./ApiUnavailableError";
 
 // const Host = '192.168.1.4'
 const Host = '192.168.1.3'
@@ -42,7 +43,7 @@ export default class ApiClient {
     async getInfo(host) {
         host = host ? `http://${host}:${Port}` : this.baseURL
         this.log(`getInfo for host: ${host}`)
-        
+
         let response = await axios.get(`${host}/info/public`)
         let { data } = response
         // this.log('signup: ' + JSON.stringify(data, null, 2))
@@ -72,20 +73,28 @@ export default class ApiClient {
     }
 
     async login(email, password) {
-        this.log('login ' + email + ' / ' + password)
-        let response = await this.api.post('/auth/login', {
-            email: email,
-            password: password,
-        })
-        let { data } = response
-        // this.log('signup: ' + JSON.stringify(data, null, 2))
-        if (!data.success) {
-            this.log('login failed: ' + data.message)
+        try {
+            this.log('login ' + email + ' / ' + password)
+            let response = await this.api.post('/auth/login', {
+                email: email,
+                password: password,
+            })
+            let { data } = response
+            // this.log('signup: ' + JSON.stringify(data, null, 2))
+            if (!data.success) {
+                this.log('login failed: ' + data.message)
+                return data
+            }
+            this.authToken = data.data.token
+            this.log('token: ' + this.authToken)
             return data
+        } catch (error) {
+            if (!error.response) {
+                throw new ApiUnavailableError(error);
+            } else {
+                console.log(error);
+            }
         }
-        this.authToken = data.data.token
-        this.log('token: ' + this.authToken)
-        return data
     }
 
     async logout() {
@@ -168,7 +177,7 @@ export default class ApiClient {
         }
     }
 
-    
+
 
     async loadMemory(id) {
         const headers = {
@@ -222,9 +231,17 @@ export default class ApiClient {
         const headers = {
             'Authorization': this.authToken
         }
-        let response = await this.api.get(`/tags`, { headers })
-        let { data } = response
-        return data.data
+        try {
+            let response = await this.api.get(`/tags`, { headers })
+            let { data } = response
+            return data.data
+        } catch (error) {
+            if (!error.response) {
+                throw new ApiUnavailableError(error);
+            } else {
+                console.log(error);
+            }
+        }
     }
 
     async saveTag(tag) {
@@ -278,7 +295,7 @@ export default class ApiClient {
     // }
 
     //Authorization: Bearer: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1ZWVhMTk4YTM2MzI1ODdmNjlmY2MyNTkiLCJleHAiOjE1OTM5NTkyNjR9.zdJ76yQI7PNckPcKSzM4mETIXj4EAxO4lcF2CryXddo1ZU8fad-Pyn2tMxA0R9k5svocgn8zrauTXi6E3zjwCw
-    async uploadFile(type, fileData) {    
+    async uploadFile(type, fileData) {
         this.log('[uploadFile]: type: ' + type)
         const headers = {
             'Authorization': this.authToken,
@@ -303,7 +320,7 @@ export default class ApiClient {
         let response = await this.api.post(`/files/upload`, body, {headers})
         let {data} = response
         // this.log('create upload data: ' + JSON.stringify(data, null, 2))
-        if(!data.success) {            
+        if(!data.success) {
             this.log('[createUpload]: ' + data.message)
             return null
         }
@@ -331,8 +348,8 @@ export default class ApiClient {
         return data.data
     }
 
-    
-    // /memory/{id}/files/{type}/upload/{uploadId}/{index}    
+
+    // /memory/{id}/files/{type}/upload/{uploadId}/{index}
     async uploadChunk(uploadId, index, chunk) {
         this.log('[uploadChunk]: chunk: ' + index)
         const headers = {

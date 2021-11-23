@@ -8,6 +8,7 @@ import SignInScreen from './SignInScreen';
 import SignUpScreen from './SignUpScreen';
 import ResetPasswordScreen from './ResetPasswordScreen';
 import DiscoverScreen from './DiscoverScreen';
+import ApiUnavailableScreen from "./ApiUnavailableScreen";
 
 const Stack = createNativeStackNavigator();
 

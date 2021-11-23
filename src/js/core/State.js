@@ -7,39 +7,39 @@ export default class State {
     @observable _initialized = false
     @observable _authenticated = false
     @observable _accId = null
-    
+
     @observable _authErrorMsg = null
-    
+
     @observable _counter = 1
-    
+
     @observable _memories = null
-    
+
     @observable _memory = null
-    
+
     @observable _editingMemory = null
-    
+
     @observable _tags = null
-    
+
     @observable _lockboxHosts = [
         // {
         //     name: 'Alex\'s Lockbox',
         //     address: '192.168.1.3'
         // },
-        // {
-        //     name: 'Maks\'s Lockbox',
-        //     address: '192.168.1.22'
-        // }
+        //{
+        //    name: 'Maks\'s Lockbox',
+        //    address: '192.168.1.22'
+        //}
     ]
-    
+
     @observable _discoveryStarted = false
-    
+
     // @observable lockboxHosts = []
     @observable _lockboxHost = null
-    
+
     @observable _deviceInfo = null
-    
+
     @observable _accounts = null
-    
+
 
     constructor() {
         makeAutoObservable(this)

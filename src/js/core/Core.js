@@ -108,7 +108,19 @@ export default class Core {
     }
 
     navigate(name, params) {
-        this.navigationRef.current?.navigate(name, params);
+        this.navigationRef.current?.navigate(name, params)
+    }
+
+    navigateReset(name, params) {
+        // this.navigationRef.current?.pop(999)
+        this.navigationRef.current?.reset({
+            index: 1, 
+            routes: [
+                {
+                    name, params
+                }
+            ]
+        })
     }
 
     goBack() {
@@ -121,11 +133,16 @@ export default class Core {
     }
 
     async signIn(email, password) {
-        let result = await this.api.login(email, password)
-        console.log('authenticated ' + result.success)
-        this.state.authenticated = result.success
-        this.state.authErrorMsg = result.message
-        this.state.accId = result.success ? result.data.id : null
+        try {
+            let result = await this.api.login(email, password)
+            console.log('authenticated ' + result.success)
+            this.state.authenticated = result.success
+            this.state.authErrorMsg = result.message
+            this.state.accId = result.success ? result.data.id : null
+            this.navigateReset('Home')
+        } catch (e) {
+            this.navigateReset('ApiUnavailable')
+        }
     }
 
     async signUp(email, password) {
@@ -143,6 +160,7 @@ export default class Core {
         this.state.authenticated = result.success
         this.state.authErrorMsg = result.message
         this.state.accId = result.success ? result.data.id : null
+        this.navigateReset('Home')
     }
 
     async signOut() {
@@ -153,6 +171,7 @@ export default class Core {
         this.state.tags = null
         this.state.authErrorMsg = null
         this.state.accId = null
+        this.navigateReset('Discover')
     }
 
     async cahngePassword(oldPassword, newPassword) {
@@ -172,7 +191,11 @@ export default class Core {
     }
 
     async loadTags() {
-        this.state.tags = await this.api.loadTags();
+        try {
+            this.state.tags = await this.api.loadTags();
+        } catch (e) {
+            this.navigate('ApiUnavailable')
+        }
     }
 
     async loadTagsIfNeeded() {
@@ -381,7 +404,7 @@ export default class Core {
                 if (info == null || info.success != true) {
                     continue
                 }
-                
+
                 let prevHosts = toJS(this.state.lockboxHosts).filter(h => h.address != address)
 
                 this.state.lockboxHosts = [

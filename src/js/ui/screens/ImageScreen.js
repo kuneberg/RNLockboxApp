@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, Button, Image, Dimensions, SafeAreaView, FlatList } from 'react-native';
+import { Image, Dimensions, SafeAreaView } from 'react-native';
 import core from '../../core';
 import { observer } from 'mobx-react';
 import {useHeaderHeight} from '@react-navigation/elements';

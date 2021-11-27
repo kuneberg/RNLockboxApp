@@ -1,14 +1,12 @@
 import * as React from 'react';
 import State from "./State";
-import TestData from './TestData';
 import ApiClient from './ApiClient';
-import { Buffer } from 'buffer';
+import {Buffer} from 'buffer';
 
 // var bonjour = require('bonjour')()
 import Zeroconf from 'react-native-zeroconf'
 import moment from 'moment';
-import { toJS } from 'mobx';
-
+import {toJS} from 'mobx';
 
 // const
 
@@ -114,7 +112,7 @@ export default class Core {
     navigateReset(name, params) {
         // this.navigationRef.current?.pop(999)
         this.navigationRef.current?.reset({
-            index: 1, 
+            index: 1,
             routes: [
                 {
                     name, params
@@ -156,11 +154,16 @@ export default class Core {
             this.state.authErrorMsg = 'Password is required'
             return
         }
-        let result = await this.api.signup(email, password)
-        this.state.authenticated = result.success
-        this.state.authErrorMsg = result.message
-        this.state.accId = result.success ? result.data.id : null
-        this.navigateReset('Home')
+        try {
+            let result = await this.api.signup(email, password)
+            this.state.authenticated = result.success
+            this.state.authErrorMsg = result.message
+            this.state.accId = result.success ? result.data.id : null
+            this.navigateReset('Home')
+        } catch (e) {
+            this.navigateReset('ApiUnavailable')
+        }
+
     }
 
     async signOut() {
@@ -174,52 +177,85 @@ export default class Core {
         this.navigateReset('Discover')
     }
 
-    async cahngePassword(oldPassword, newPassword) {
-        let result = await this.api.cahngePassword(oldPassword, newPassword)
-        this.state.authErrorMsg = result.message
+    async changePassword(oldPassword, newPassword) {
+        try {
+            let result = await this.api.changePassword(oldPassword, newPassword);
+            this.state.authErrorMsg = result.message;
+        } catch (e) {
+            this.navigate('ApiUnavailable');
+        }
     }
 
-    async resetLockbox() {
-        let result = await this.api.resetLockbox()
-        this.state.authErrorMsg = result.message
+    async reset() {
+        try {
+            let result = await this.api.reset();
+            this.state.authErrorMsg = result.message;
+        } catch (e) {
+            this.navigate('ApiUnavailable');
+        }
     }
 
     async loadMemories() {
+        try {
+            await this._loadMemories();
+        } catch (e) {
+            this.navigate('ApiUnavailable');
+        }
+    }
+
+    async _loadMemories() {
         this.state.memories = null;
-        await this.timeout(1000)
         this.state.memories = await this.api.loadMemories();
     }
 
     async loadTags() {
         try {
-            this.state.tags = await this.api.loadTags();
+            await this._loadTags();
         } catch (e) {
-            this.navigate('ApiUnavailable')
+            this.navigate('ApiUnavailable');
         }
     }
 
+    async _loadTags() {
+        this.state.tags = await this.api.loadTags();
+    }
+
     async loadTagsIfNeeded() {
-        if (this.state.tags == null) {
-            this.state.tags = await this.api.loadTags();
+        try {
+            if (this.state.tags == null) {
+                await this._loadTags();
+            }
+        } catch (e) {
+            this.navigate('ApiUnavailable');
         }
     }
 
     async saveTag(tag) {
-        console.log(`save tag: ${tag} - START`)
-        tag = await this.api.saveTag(tag)
-        console.log(tag)
-        await this.loadTags()
-        this.goBack()
-        console.log(`save tag: ${tag} - END`)
+        try {
+            await this._saveTag(tag);
+            await this._loadTags();
+            this.goBack();
+        } catch (e) {
+            this.navigate('ApiUnavailable');
+        }
+    }
+
+    async _saveTag(tag) {
+        await this.api.saveTag(tag);
     }
 
     async deleteTag(tag) {
-        console.log(`delete tag: ${tag} - START`)
-        tag = await this.api.deleteTag(tag.id)
-        console.log(tag)
-        await this.loadTags()
-        this.goBack()
-        console.log(`delete tag: ${tag} - END`)
+        try {
+            await this._deleteTag(tag);
+            await this._loadTags();
+            this.goBack();
+        } catch (e) {
+            this.navigate('ApiUnavailable');
+        }
+    }
+
+    async _deleteTag(tag) {
+        await this.api.deleteTag(tag.id);
     }
 
     getTagsMap() {
@@ -234,63 +270,68 @@ export default class Core {
     }
 
     async loadMemory(id) {
+        try {
+            return await this._loadMemory(id);
+        } catch (e) {
+            this.navigateReset('ApiUnavailable')
+        }
+    }
+
+    async _loadMemory(id) {
         this.state.memory = await this.api.loadMemory(id);
         console.log('load memory id: ' + id + ' ' + JSON.stringify(this.state.memory, null, 2))
         return this.state.memory
     }
 
     async deleteMemory() {
-        let id = this.state.editingMemory.id
-        if (id) {
-            this.api.deleteMemory(id)
-            await this.loadMemories()
-            this.navigate('MemoriesList')
+        try {
+            let id = this.state.editingMemory.id;
+            if (id) {
+                await this._deleteMemory(id);
+                await this._loadMemories();
+                this.navigate('MemoriesList');
+            }
+        } catch (e) {
+            this.navigateReset('ApiUnavailable');
         }
     }
 
+    async _deleteMemory(id) {
+        await this.api.deleteMemory(id)
+    }
+
     async startMemoryEdit(id) {
-        console.log('start memory editor id: ' + id)
-        this.state.editingMemory = null
-        this.state.editingMemory = await this.api.loadMemory(id);
-        //console.log('editing item: ' + JSON.stringify(this.state.memory, null, 2))
+        try {
+            console.log('start memory editor id: ' + id)
+            this.state.editingMemory = null
+            this.state.editingMemory = await this._loadMemory(id)
+        } catch (e) {
+            this.navigateReset('ApiUnavailable')
+        }
+
     }
 
     startMemoryAdd() {
         console.log('start memory add')
         this.state.editingMemory = { items: [], tags: [], eventDate: moment().format('YYYY-MM-DDTHH:mm:ss.SSZ') }
-        // console.log('editing item: ' + JSON.stringify(this.state.memory, null, 2))
     }
 
     async saveMemory() {
-        let memory = this.state.editingMemory;
-
-        console.log('save items count: ' + memory.items.length)
-        //console.log('save items' + JSON.stringify(memory.items, null, 2))
-
-        let existedItems = memory.items.filter(item => !item.base64)
-        let newItems = memory.items.filter(item => item.base64)
-        console.log(existedItems)
-
-        let toSave = { ...memory, items: existedItems }
-        let response = await this.api.saveMemory(toSave)
-        if (!response.success) {
-            console.log('error: ' + response.message)
-            return
+        try {
+            let memory = this.state.editingMemory;
+            console.log('save items count: ' + memory.items.length)
+            let response = await this.api.saveMemory(memory)
+            if (!response.success) {
+                console.log('error: ' + response.message)
+                return
+            }
+            let addedMemory = response.data
+            await this._loadMemories()
+            await this._loadMemory(addedMemory.id)
+            this.goBack();
+        } catch (e) {
+            this.navigateReset('ApiUnavailable');
         }
-        let addedMemory = response.data
-        console.log(addedMemory)
-        let id = response.data.id
-        for (item of newItems) {
-            let data = Buffer.from(item.base64, 'base64')
-            let response = await this.api.addMemoryItem(id, 'PICTURE', data)
-            console.log('added item: ' + JSON.stringify(response, null, 2))
-            let addedItem = response.data
-            addedMemory.items.push(addedItem)
-        }
-        await this.loadMemories()
-        await this.loadMemory(addedMemory.id)
-        this.goBack();
-        // this.navigate('Memory', {id: addedMemory.id});
     }
 
     createReactImageSource(fileItem) {
@@ -320,8 +361,8 @@ export default class Core {
     }
 
     async uploadImage(base64) {
-        let filedata = Buffer.from(base64, 'base64')
-        let response = await this.api.uploadFile('PICTURE', filedata)
+        let fileData = Buffer.from(base64, 'base64')
+        let response = await this.api.uploadFile('PICTURE', fileData)
         if (response.success) {
             console.log('core: [uploadImage]: ' + JSON.stringify(response.data, null, 2))
             return response.data
@@ -337,14 +378,12 @@ export default class Core {
         await reader.open()
         let chunks = reader.chunks
 
-        // console.log('props: ' + JSON.stringify(this.props.item, null, 2))
-        //let id = this.props.item.id
         console.log(`path: ${path} chunks: ${chunks}`)
         let response = await core.api.createUpload(chunks)
         if (response == null) {
             return
         }
-        // console.log('response: ' + JSON.stringify(response, null, 2))
+
         let { data } = response
         console.log('upload created ok: ' + JSON.stringify(data, null, 2))
 
@@ -422,13 +461,20 @@ export default class Core {
     }
 
     async loadDeviceInfo() {
-        let info = await this.api.getInfo()
-        this.state.deviceInfo = info.data
+        try {
+            let info = await this.api.getInfo();
+            this.state.deviceInfo = info.data;
+        } catch (e) {
+            this.navigateReset('ApiUnavailable')
+        }
     }
 
     async loadAccounts() {
-        let accounts = await this.api.loadAccounts()
-        this.state.accounts = accounts
+        try {
+            this.state.accounts = await this.api.loadAccounts();
+        } catch (e) {
+            this.navigateReset('ApiUnavailable')
+        }
     }
 
     // discover() {

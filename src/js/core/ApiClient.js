@@ -44,32 +44,44 @@ export default class ApiClient {
         host = host ? `http://${host}:${Port}` : this.baseURL
         this.log(`getInfo for host: ${host}`)
 
-        let response = await axios.get(`${host}/info/public`)
-        let { data } = response
-        // this.log('signup: ' + JSON.stringify(data, null, 2))
-        if (!data.success) {
-            this.log(`getInfo failed: ${data.message}`)
+        try {
+            let response = await axios.get(`${host}/info/public`)
+            let { data } = response
+            if (!data.success) {
+                this.log(`getInfo failed: ${data.message}`)
+                return data
+            }
             return data
+        } catch (error) {
+            if (!error.response) {
+                throw new ApiUnavailableError(error);
+            } else {
+                console.log(error);
+            }
         }
-        // this.log('token: ' + this.authToken)
-        return data
     }
 
     async signup(email, password) {
-        this.log('signup ' + email + ' / ' + password)
-        let response = await this.api.post('/auth/register', {
-            email: email,
-            password: password,
-        })
-        let { data } = response
-        // this.log('signup: ' + JSON.stringify(data, null, 2))
-        if (!data.success) {
-            this.log('signup failed: ' + data.message)
+        try {
+            this.log('signup ' + email + ' / ' + password)
+            let response = await this.api.post('/auth/register', {
+                email: email,
+                password: password,
+            })
+            let { data } = response
+            if (!data.success) {
+                this.log('signup failed: ' + data.message)
+                return data
+            }
+            this.authToken = data.data.token
             return data
+        } catch (error) {
+            if (!error.response) {
+                throw new ApiUnavailableError(error);
+            } else {
+                console.log(error);
+            }
         }
-        this.authToken = data.data.token
-        // this.log('token: ' + this.authToken)
-        return data
     }
 
     async login(email, password) {
@@ -80,7 +92,6 @@ export default class ApiClient {
                 password: password,
             })
             let { data } = response
-            // this.log('signup: ' + JSON.stringify(data, null, 2))
             if (!data.success) {
                 this.log('login failed: ' + data.message)
                 return data
@@ -102,32 +113,46 @@ export default class ApiClient {
         return true
     }
 
-    async cahngePassword(oldPassword, newPassword) {
+    async changePassword(oldPassword, newPassword) {
         const headers = {
             'Authorization': this.authToken,
         }
-
-        let response = await this.api.post('/auth/password', {oldPassword, newPassword}, { headers })
-        let { data } = response
-        this.log('save memory: ' + JSON.stringify(data, null, 2))
-        if (!data.success) {
-            this.log('something wrong: ' + data.message)
+        try {
+            let response = await this.api.post('/auth/password', {oldPassword, newPassword}, { headers })
+            let { data } = response
+            this.log('save memory: ' + JSON.stringify(data, null, 2))
+            if (!data.success) {
+                this.log('something wrong: ' + data.message)
+            }
+            return data
+        } catch (error) {
+            if (!error.response) {
+                throw new ApiUnavailableError(error);
+            } else {
+                console.log(error);
+            }
         }
-        return data
     }
 
-    async resetLockbox() {
+    async reset() {
         const headers = {
             'Authorization': this.authToken,
         }
-
-        let response = await this.api.post('/auth/reset', {approve: true}, { headers })
-        let { data } = response
-        this.log('save memory: ' + JSON.stringify(data, null, 2))
-        if (!data.success) {
-            this.log('something wrong: ' + data.message)
+        try {
+            let response = await this.api.post('/auth/reset', {approve: true}, { headers })
+            let { data } = response
+            this.log('save memory: ' + JSON.stringify(data, null, 2))
+            if (!data.success) {
+                this.log('something wrong: ' + data.message)
+            }
+            return data
+        } catch (error) {
+            if (!error.response) {
+                throw new ApiUnavailableError(error);
+            } else {
+                console.log(error);
+            }
         }
-        return data
     }
 
     timeout(ms) {
@@ -138,14 +163,22 @@ export default class ApiClient {
         const headers = {
             'Authorization': this.authToken,
         }
-        let response = await this.api.get('/memory', { headers })
-        let { data } = response
-        this.log('get memories: ' + JSON.stringify(data, null, 2))
-        if (!data.success) {
-            this.log('something wrong: ' + data.message)
-            return null
+        try {
+            let response = await this.api.get('/memory', { headers })
+            let { data } = response
+            this.log('get memories: ' + JSON.stringify(data, null, 2))
+            if (!data.success) {
+                this.log('something wrong: ' + data.message)
+                return null
+            }
+            return data.data
+        } catch (error) {
+            if (!error.response) {
+                throw new ApiUnavailableError(error);
+            } else {
+                console.log(error);
+            }
         }
-        return data.data
     }
 
     async saveMemory(memory) {
@@ -155,42 +188,64 @@ export default class ApiClient {
         memory.createdAt = moment().toISOString()
         memory.updatedAt = moment().toISOString()
 
-        let response = await this.api.post('/memory', memory, { headers })
-        let { data } = response
-        this.log('save memory: ' + JSON.stringify(data, null, 2))
-        if (!data.success) {
-            this.log('something wrong: ' + data.message)
+        try {
+            let response = await this.api.post('/memory', memory, { headers })
+            let { data } = response
+            this.log('save memory: ' + JSON.stringify(data, null, 2))
+            if (!data.success) {
+                this.log('something wrong: ' + data.message)
+            }
+            return data
+        } catch (error) {
+            if (!error.response) {
+                throw new ApiUnavailableError(error);
+            } else {
+                console.log(error);
+            }
         }
-        return data
     }
 
     async deleteMemory(id) {
         const headers = {
             'Authorization': this.authToken,
         }
-        let response = await this.api.delete('/memory/' + id, { headers })
-        if (response.success) {
-            this.log(`delete memory: ${id} ok`)
-        } else {
-            this.log('delete memory: ' + JSON.stringify(response, null, 2))
-            this.log(`delete memory: ${id} failed: ${response.message}`)
+        try {
+            let response = await this.api.delete('/memory/' + id, { headers })
+            if (response.success) {
+                this.log(`delete memory: ${id} ok`)
+            } else {
+                this.log('delete memory: ' + JSON.stringify(response, null, 2))
+                this.log(`delete memory: ${id} failed: ${response.message}`)
+            }
+        } catch (error) {
+            if (!error.response) {
+                throw new ApiUnavailableError(error);
+            } else {
+                console.log(error);
+            }
         }
     }
-
-
 
     async loadMemory(id) {
         const headers = {
             'Authorization': this.authToken,
         }
-        let response = await this.api.get(`/memory/${id}`, { headers })
-        let { data } = response
-        this.log('get memories: ' + JSON.stringify(data, null, 2))
-        if (!data.success) {
-            this.log('something wrong: ' + data.message)
-            return null
+        try {
+            let response = await this.api.get(`/memory/${id}`, { headers })
+            let { data } = response
+            this.log('get memories: ' + JSON.stringify(data, null, 2))
+            if (!data.success) {
+                this.log('something wrong: ' + data.message)
+                return null
+            }
+            return data.data
+        } catch (error) {
+            if (!error.response) {
+                throw new ApiUnavailableError(error);
+            } else {
+                console.log(error);
+            }
         }
-        return data.data
     }
 
     createReactImageSource(fileId) {
@@ -248,9 +303,17 @@ export default class ApiClient {
         const headers = {
             'Authorization': this.authToken
         }
-        let response = await this.api.post(`/tags`, tag, { headers })
-        let { data } = response
-        return data.data
+        try {
+            let response = await this.api.post(`/tags`, tag, { headers })
+            let { data } = response
+            return data.data
+        } catch (error) {
+            if (!error.response) {
+                throw new ApiUnavailableError(error);
+            } else {
+                console.log(error);
+            }
+        }
     }
 
     async deleteTag(id) {
@@ -270,10 +333,18 @@ export default class ApiClient {
         const headers = {
             'Authorization': this.authToken
         }
-        let response = await this.api.get(`/accounts`, { headers })
-        let { data } = response
-        console.log(data)
-        return data.data
+        try {
+            let response = await this.api.get(`/accounts`, { headers })
+            let { data } = response
+            console.log(data)
+            return data.data
+        } catch (error) {
+            if (!error.response) {
+                throw new ApiUnavailableError(error);
+            } else {
+                console.log(error);
+            }
+        }
     }
 
     log(message) {

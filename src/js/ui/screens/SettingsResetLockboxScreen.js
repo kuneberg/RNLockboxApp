@@ -63,8 +63,8 @@ export default class SettingsResetLockboxScreen extends React.Component {
         })
     }
 
-    async resetLockbox() {
-        await core.resetLockbox();
+    async reset() {
+        await core.reset();
         await core.signOut();
         core.navigate("SettingsHome");
     }
@@ -77,7 +77,7 @@ export default class SettingsResetLockboxScreen extends React.Component {
                 <Text style={style.text.style}>Use long press.</Text>
                 <SquareButton
                     title="Reset Lockbox"
-                    onPress={() => this.resetLockbox()}
+                    onPress={() => this.reset()}
                     style={style.button.style}
                 />
                 </View>

@@ -15,6 +15,7 @@ export default class VideoScreen extends React.Component {
         return <SafeAreaView style={{flex:1}}>
             <Video
                 source={source}
+                resizeMode={"contain"}
                 controls={true}
                 style={{
                     position: 'absolute',

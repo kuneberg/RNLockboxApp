@@ -14,7 +14,6 @@ import * as Progress from 'react-native-progress';
 
 import Tag from './Tag';
 
-import RoundIconButton from './RoundIconButton';
 import SquareButton from './SquareButton';
 
 
@@ -107,11 +106,10 @@ export default class MemoryEditor extends React.Component {
     }
 
     async onRemovePress(index) {
-        // console.log(`removing ${index} item`)
         let items = this.props.item.items.filter((v, i) => i != index)
         this.props.item.items = items
         let memory = { ...this.props.item, items }
-        let res = await core.api.saveMemory(memory)
+        await core.api.saveMemory(memory)
         await core.loadMemories()
         await core.loadMemory(memory.id)
     }
@@ -136,12 +134,8 @@ export default class MemoryEditor extends React.Component {
         await this.props.onAddPhoto(base64)
     }
 
-    // curl -X GET "http://192.168.1.3:8084/memory/5f40dc59e2d51515ad47343f/files/VIDEO/5f475ad3f9c8a570092b7327" -H "accept: application/octet-stream" -H "Authorization: Bearer: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1ZjQwZGM0OTdkYTdkZTQzOTA0ZWJkYjgiLCJleHAiOjE1OTkzNzU5MjN9.qmZzKmQSPffgU98pf0MErW_R-E1LaPcLKBVDUkSUHhtG0QmWSoOkUucZM571cLSQQCvnP-7a4NYbP_fOuypYvw"
-
     async onAddVideoPress() {
-        // console.log('add video')
         let video = await ImageCropPicker.openPicker({ mediaType: 'video' })
-        const ChunkSize = 4096 * 32
         console.log('video: ' + JSON.stringify(video, null, 2))
         let videoPath = video.path
         if (videoPath.startsWith('file://')) {
@@ -155,7 +149,6 @@ export default class MemoryEditor extends React.Component {
     }
 
     play(id, item) {
-        // console.log('play: ' + id + ' ' + JSON.stringify(item))
         core.navigate('Video', { id, item })
     }
 

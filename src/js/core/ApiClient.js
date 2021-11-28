@@ -23,9 +23,7 @@ export default class ApiClient {
     constructor() {
         this.baseURL = ServerURL
         this.api = axios.create({
-            baseURL: ServerURL,
-            // timeout: 1000,
-            // headers: {'X-Custom-Header': 'foobar'}
+            baseURL: ServerURL
         })
         this.authToken = null
     }
@@ -320,12 +318,20 @@ export default class ApiClient {
         const headers = {
             'Authorization': this.authToken,
         }
-        let response = await this.api.delete(`/tags/${id}`, { headers })
-        if (response.success) {
-            this.log(`delete tag: ${id} ok`)
-        } else {
-            this.log('delete tag: ' + JSON.stringify(response, null, 2))
-            this.log(`delete tag: ${id} failed: ${response.message}`)
+        try {
+            let response = await this.api.delete(`/tags/${id}`, { headers })
+            if (response.success) {
+                this.log(`delete tag: ${id} ok`)
+            } else {
+                this.log('delete tag: ' + JSON.stringify(response, null, 2))
+                this.log(`delete tag: ${id} failed: ${response.message}`)
+            }
+        } catch (error) {
+            if (!error.response) {
+                throw new ApiUnavailableError(error);
+            } else {
+                console.log(error);
+            }
         }
     }
 
@@ -351,31 +357,23 @@ export default class ApiClient {
         console.log('API: ' + message)
     }
 
-    // async loadItemData(id, item) {
-    //     let { type, fileId } = item
-    //     this.log(`load file ${id}/${type}/${fileId}`)
-    //     const headers = {
-    //         'Authorization': this.authToken,
-    //         'accept': 'application/octet-stream',
-    //     }
-    //     let response = await this.api.get(`/memory/${id}/files/${type}/${fileId}`, { headers })
-    //     console.log('RESPONSE: ' + JSON.stringify(response, null, 2))
-    //     let { data } = response
-    //     console.log('  data length: ' + data.length)
-    //     return data
-    // }
-
-    //Authorization: Bearer: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1ZWVhMTk4YTM2MzI1ODdmNjlmY2MyNTkiLCJleHAiOjE1OTM5NTkyNjR9.zdJ76yQI7PNckPcKSzM4mETIXj4EAxO4lcF2CryXddo1ZU8fad-Pyn2tMxA0R9k5svocgn8zrauTXi6E3zjwCw
     async uploadFile(type, fileData) {
         this.log('[uploadFile]: type: ' + type)
         const headers = {
             'Authorization': this.authToken,
             'content-type': 'application/octet-stream',
         }
-        let response = await this.api.post(`/files/${type}`, fileData, { headers })
-        //let { data } = response
-        this.log('[uploadFile]: ' + JSON.stringify(response.data, null, 2))
-        return response.data
+        try {
+            let response = await this.api.post(`/files/${type}`, fileData, { headers })
+            this.log('[uploadFile]: ' + JSON.stringify(response.data, null, 2))
+            return response.data
+        } catch (error) {
+            if (!error.response) {
+                throw new ApiUnavailableError(error);
+            } else {
+                console.log(error);
+            }
+        }
     }
 
     async createUpload(chunks) {
@@ -383,34 +381,36 @@ export default class ApiClient {
         const headers = {
             'Authorization': this.authToken,
         }
-        // this.log('create upload...')
         let body = {
             fileType: 'VIDEO',
             totalChunks: chunks,
         }
-        let response = await this.api.post(`/files/upload`, body, {headers})
-        let {data} = response
-        // this.log('create upload data: ' + JSON.stringify(data, null, 2))
-        if(!data.success) {
-            this.log('[createUpload]: ' + data.message)
-            return null
+        try {
+            let response = await this.api.post(`/files/upload`, body, {headers})
+            let {data} = response
+            if(!data.success) {
+                this.log('[createUpload]: ' + data.message)
+                return null
+            }
+            this.log('[createUpload]: return data: ' + JSON.stringify(data, null, 2))
+            return data
+        } catch (error) {
+            if (!error.response) {
+                throw new ApiUnavailableError(error);
+            } else {
+                console.log(error);
+            }
         }
-        this.log('[createUpload]: return data: ' + JSON.stringify(data, null, 2))
-        return data
     }
 
-    // /memory/{id}/files/{type}/upload/{uploadId}
     async checkUploadStatus(uploadId) {
         this.log('[checkUploadStatus]: uploadId: ' + uploadId)
         const headers = {
             'Authorization': this.authToken,
         }
-        // this.log('create upload...')
         let url = `/files/upload/${uploadId}`
-        // this.log('[checkUploadStatus]: ' + url)
         let response = await this.api.get(url, {headers})
         let {data} = response
-        // this.log('create upload data: ' + JSON.stringify(data, null, 2))
         if(!data.success) {
             this.log('[checkUploadStatus]: error: ' + data.message)
             return null
@@ -419,8 +419,6 @@ export default class ApiClient {
         return data.data
     }
 
-
-    // /memory/{id}/files/{type}/upload/{uploadId}/{index}
     async uploadChunk(uploadId, index, chunk) {
         this.log('[uploadChunk]: chunk: ' + index)
         const headers = {
@@ -428,14 +426,21 @@ export default class ApiClient {
             'content-type': 'application/octet-stream',
         }
         let url = `/files/upload/${uploadId}/${index}`
-        let response = await this.api.post(url, chunk, { headers })
-        let { data } = response
-        // this.log('chunk upload: ' + JSON.stringify(data, null, 2))
-        if(!data.success) {
-            this.log('[uploadChunk]: ' + data.message)
-            return null
+        try {
+            let response = await this.api.post(url, chunk, { headers })
+            let { data } = response
+            if(!data.success) {
+                this.log('[uploadChunk]: ' + data.message)
+                return null
+            }
+            return data.data
+        } catch (error) {
+            if (!error.response) {
+                throw new ApiUnavailableError(error);
+            } else {
+                console.log(error);
+            }
         }
-        return data.data
     }
 
     log(message) {

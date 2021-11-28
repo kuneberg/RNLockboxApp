@@ -3,7 +3,6 @@ import State from "./State";
 import ApiClient from './ApiClient';
 import {Buffer} from 'buffer';
 
-// var bonjour = require('bonjour')()
 import Zeroconf from 'react-native-zeroconf'
 import moment from 'moment';
 import {toJS} from 'mobx';
@@ -49,7 +48,6 @@ class FileReader {
             return null // eof
         }
         let data = await RNFS.read(this.path, this.blockSize, this.pos, 'base64')
-        // console.log('read file position: ' + this.pos)
         this.pos += this.blockSize
         return data
     }
@@ -110,7 +108,6 @@ export default class Core {
     }
 
     navigateReset(name, params) {
-        // this.navigationRef.current?.pop(999)
         this.navigationRef.current?.reset({
             index: 1,
             routes: [
@@ -360,6 +357,40 @@ export default class Core {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+    async addPhoto(imageBase64) {
+        let item = {type: "LOADING"}
+        this.state.editingMemory.items = [item, ...this.state.editingMemory.items]
+        item = this.state.editingMemory.items[0]
+        try {
+            let data = await this.uploadImage(imageBase64)
+            item.type = data.type
+            item.fileId = data.id
+            item.coordinates = null
+        } catch (e) {
+            this.navigateReset('ApiUnavailable');
+        }
+    }
+
+    async addVideo(path) {
+        let item = {type: "LOADING"}
+        this.state.editingMemory.items = [item, ...this.state.editingMemory.items]
+        item = this.state.editingMemory.items[0]
+
+        try {
+            const ChunkSize = 4096*32
+            let uploadId = await this.uploadVideo(path, ChunkSize, (progress)=>{
+                item.progress = progress
+            })
+            let fileId = await this.waitVideoReady(uploadId)
+
+            item.type = 'VIDEO'
+            item.fileId = fileId
+            item.coordinates = null
+        } catch (e) {
+            this.navigateReset('ApiUnavailable');
+        }
+    }
+
     async uploadImage(base64) {
         let fileData = Buffer.from(base64, 'base64')
         let response = await this.api.uploadFile('PICTURE', fileData)
@@ -418,7 +449,6 @@ export default class Core {
                 break
             }
             await wait(1000)
-            // console.log('')
             count--
         }
         console.log('waiting finished: fileId: ' + fileId)
@@ -426,9 +456,6 @@ export default class Core {
     }
 
     initDiscovery() {
-        // if (this.state.discoveryStarted == true) {
-        //     return
-        // }
         this.state.discoveryStarted = true
         this.zeroconf.scan(type = 'lockbox', protocol = 'tcp', domain = 'local.')
 

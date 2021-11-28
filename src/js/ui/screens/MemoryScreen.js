@@ -1,13 +1,9 @@
 import * as React from 'react';
-import { View, Text, Button, Image, Dimensions, SafeAreaView, FlatList } from 'react-native';
-import Styles from '../styles';
+import { View, SafeAreaView } from 'react-native';
 import core from '../../core';
 import { observer } from 'mobx-react';
 import MemoryView from '../components/MemoryView';
 import LoadingView from '../components/LoadingView';
-import { HeaderBackButton } from '@react-navigation/native-stack';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import ClearIconButton from '../components/ClearIconButton';
 
 const style = {
@@ -20,13 +16,10 @@ export default class MemoryScreen extends React.Component {
 
     async componentDidMount() {
         let id = this.props.route.params.id
-        let memory = await core.loadMemory(id);
-        let accId = core.state.accId
-
-        let isMine = accId == memory.ownerId
+        await core.loadMemory(id);
 
         this.props.navigation.setOptions({
-            headerRight: () => this.renderHeaderRight(isMine),
+            headerRight: () => this.renderHeaderRight(core.state.isMine),
             headerBackTitle: 'Back',
         })
     }
@@ -60,7 +53,7 @@ export default class MemoryScreen extends React.Component {
     render() {
         if (core.state.memory == null) {
             return (
-                <LoadingView></LoadingView>
+                <LoadingView/>
             )
         }
         let tagsMap = core.getTagsMap()

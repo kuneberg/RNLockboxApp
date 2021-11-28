@@ -144,6 +144,13 @@ export default class State {
         this._accounts = value
     }
 
+    get isMine() {
+        if (this.memory != null && this.accId != null && this.memory.ownerId === this.accId) {
+            return true;
+        }
+        return false;
+    }
+
     getMemory(id) {
         let memories = this.memories.filter(memory => memory.id === id)
         return memories ? memories[0] : null

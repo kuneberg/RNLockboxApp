@@ -6,6 +6,7 @@ import {Buffer} from 'buffer';
 import Zeroconf from 'react-native-zeroconf'
 import moment from 'moment';
 import {toJS} from 'mobx';
+import ApiUnavailableError from "./ApiUnavailableError";
 
 // const
 
@@ -387,7 +388,11 @@ export default class Core {
             item.fileId = fileId
             item.coordinates = null
         } catch (e) {
-            this.navigateReset('ApiUnavailable');
+            if ( e instanceof ApiUnavailableError ) {
+                this.navigateReset('ApiUnavailable');
+            } else {
+                console.log(e);
+            }
         }
     }
 
@@ -410,7 +415,7 @@ export default class Core {
         let chunks = reader.chunks
 
         console.log(`path: ${path} chunks: ${chunks}`)
-        let response = await core.api.createUpload(chunks)
+        let response = await this.api.createUpload(chunks)
         if (response == null) {
             return
         }

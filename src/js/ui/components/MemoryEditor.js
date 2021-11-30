@@ -108,10 +108,6 @@ export default class MemoryEditor extends React.Component {
     async onRemovePress(index) {
         let items = this.props.item.items.filter((v, i) => i != index)
         this.props.item.items = items
-        let memory = { ...this.props.item, items }
-        await core.api.saveMemory(memory)
-        await core.loadMemories()
-        await core.loadMemory(memory.id)
     }
 
     onPress(item) {

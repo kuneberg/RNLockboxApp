@@ -116,28 +116,25 @@ export default class MemoryEditor extends React.Component {
         }
     }
 
-    async onAddPhotoPress() {
-        console.log(`opening image picker`)
-        let image = await ImageCropPicker.openPicker({
-            mediaType: 'photo',
+    async onAddMediaItemPress() {
+        console.log(`opening image/video picker...`)
+        let mediaItem = await ImageCropPicker.openPicker({
+            mediaType: 'any',
             width: 1000,
             height: 1000,
             multiple: false,
             includeBase64: true,
             forceJpg: true
         })
-        let base64 = image.data
-        await this.props.onAddPhoto(base64)
-    }
+        console.log('media item: ' + JSON.stringify(mediaItem, null, 2))
 
-    async onAddVideoPress() {
-        let video = await ImageCropPicker.openPicker({ mediaType: 'video' })
-        console.log('video: ' + JSON.stringify(video, null, 2))
-        let videoPath = video.path
-        if (videoPath.startsWith('file://')) {
-            videoPath = videoPath.substring(7)
+        let item = {
+            mediaType: mediaItem.mime,
+            videoPath: mediaItem.path,
+            imageData: mediaItem.data
         }
-        await this.props.onAddVideo(videoPath)
+
+        await this.props.onAddMediaItem(item)
     }
 
     onDeletePress() {
@@ -248,7 +245,7 @@ export default class MemoryEditor extends React.Component {
     }
 
     renderAddButton() {
-        return <TouchableOpacity key='add-image' onPress={() => this.onAddPhotoPress()}>
+        return <TouchableOpacity key='add-image' onPress={() => this.onAddMediaItemPress()}>
             <View style={{
                 borderColor: 'rgb(115, 115, 118)',
                 borderWidth: 1,
@@ -260,25 +257,7 @@ export default class MemoryEditor extends React.Component {
                 alignContent: 'center',
                 alignItems: 'center'
             }}>
-                <Icon name={'camera'} size={36} color={'rgb(115, 115, 118)'} />
-            </View>
-        </TouchableOpacity>
-    }
-
-    renderAddVideoButton() {
-        return <TouchableOpacity key='add-video' onPress={() => this.onAddVideoPress()}>
-            <View style={{
-                borderColor: 'rgb(115, 115, 118)',
-                borderWidth: 1,
-                borderRadius: 12,
-                margin: 10,
-                height: 190,
-                width: 100,
-                justifyContent: 'center',
-                alignContent: 'center',
-                alignItems: 'center'
-            }}>
-                <Icon name={'video-camera'} size={36} color={'rgb(115, 115, 118)'} />
+                <Icon name={'plus'} size={36} color={'rgb(115, 115, 118)'} />
             </View>
         </TouchableOpacity>
     }
@@ -286,7 +265,6 @@ export default class MemoryEditor extends React.Component {
     renderItems(memoryItem) {
         let childs = []
         childs.push(this.renderAddButton())
-        childs.push(this.renderAddVideoButton())
         // console.log('render memory items: ' + JSON.stringify(memoryItem.items, null, 2))
         let items = memoryItem.items ? memoryItem.items : []
         items.forEach((item, index) => {

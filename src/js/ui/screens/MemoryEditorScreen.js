@@ -60,7 +60,7 @@ export default class MemoryEditorScreen extends React.Component {
                             tags={tags}
                             onEditTagsPress={() => this.onEditTagsPress()}
                             onEditDatePress={() => this.onEditDatePress()}
-                            onAddMediaItem={async (mediaItem) => await core.addMediaItem(mediaItem)}
+                            onAddMediaItems={async (mediaItems) => await core.addMediaItems(mediaItems)}
                             onDelete={() => this.onDeletePress()}
                             />
             </SafeAreaView>

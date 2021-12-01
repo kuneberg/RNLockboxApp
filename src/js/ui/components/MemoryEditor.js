@@ -116,25 +116,27 @@ export default class MemoryEditor extends React.Component {
         }
     }
 
-    async onAddMediaItemPress() {
+    async onAddMediaItemsPress() {
         console.log(`opening image/video picker...`)
-        let mediaItem = await ImageCropPicker.openPicker({
+        let mediaItems = await ImageCropPicker.openPicker({
             mediaType: 'any',
             width: 1000,
             height: 1000,
-            multiple: false,
+            multiple: true,
             includeBase64: true,
             forceJpg: true
         })
-        console.log('media item: ' + JSON.stringify(mediaItem, null, 2))
 
-        let item = {
-            mediaType: mediaItem.mime,
-            videoPath: mediaItem.path,
-            imageData: mediaItem.data
-        }
+        let items = [];
+        mediaItems.forEach((mediaItem) => {
+            items.push({
+                mediaType: mediaItem.mime,
+                videoPath: mediaItem.path,
+                imageData: mediaItem.data
+            })
+        });
 
-        await this.props.onAddMediaItem(item)
+        await this.props.onAddMediaItems(items)
     }
 
     onDeletePress() {
@@ -245,7 +247,7 @@ export default class MemoryEditor extends React.Component {
     }
 
     renderAddButton() {
-        return <TouchableOpacity key='add-image' onPress={() => this.onAddMediaItemPress()}>
+        return <TouchableOpacity key='add-image' onPress={() => this.onAddMediaItemsPress()}>
             <View style={{
                 borderColor: 'rgb(115, 115, 118)',
                 borderWidth: 1,

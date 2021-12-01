@@ -358,6 +358,12 @@ export default class Core {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+    async addMediaItems(mediaItems) {
+        for (const mediaItem of mediaItems) {
+            await this.addMediaItem(mediaItem);
+        }
+    }
+
     async addMediaItem(mediaItem) {
         let item = {type: "LOADING"};
         this.state.editingMemory.items = [item, ...this.state.editingMemory.items];

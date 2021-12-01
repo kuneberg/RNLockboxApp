@@ -358,35 +358,23 @@ export default class Core {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    async addPhoto(imageBase64) {
-        let item = {type: "LOADING"}
-        this.state.editingMemory.items = [item, ...this.state.editingMemory.items]
-        item = this.state.editingMemory.items[0]
-        try {
-            let data = await this.uploadImage(imageBase64)
-            item.type = data.type
-            item.fileId = data.id
-            item.coordinates = null
-        } catch (e) {
-            this.navigateReset('ApiUnavailable');
-        }
-    }
-
-    async addVideo(path) {
-        let item = {type: "LOADING"}
-        this.state.editingMemory.items = [item, ...this.state.editingMemory.items]
-        item = this.state.editingMemory.items[0]
+    async addMediaItem(mediaItem) {
+        let item = {type: "LOADING"};
+        this.state.editingMemory.items = [item, ...this.state.editingMemory.items];
+        item = this.state.editingMemory.items[0];
 
         try {
-            const ChunkSize = 4096*32
-            let uploadId = await this.uploadVideo(path, ChunkSize, (progress)=>{
-                item.progress = progress
-            })
-            let fileId = await this.waitVideoReady(uploadId)
+            if (mediaItem.mediaType.startsWith("video")) {
+                if (mediaItem.videoPath.startsWith('file://')) {
+                    mediaItem.videoPath = mediaItem.videoPath.substring(7)
+                }
 
-            item.type = 'VIDEO'
-            item.fileId = fileId
-            item.coordinates = null
+                await this.addVideo(mediaItem.videoPath, item);
+            } else if (mediaItem.mediaType.startsWith('image')) {
+                await this.addImage(mediaItem.imageData, item);
+            } else {
+                throw new Error("Unsupported media type")
+            }
         } catch (e) {
             if ( e instanceof ApiUnavailableError ) {
                 this.navigateReset('ApiUnavailable');
@@ -394,6 +382,25 @@ export default class Core {
                 console.log(e);
             }
         }
+    }
+
+    async addImage(imageBase64, item) {
+        let data = await this.uploadImage(imageBase64)
+        item.type = data.type
+        item.fileId = data.id
+        item.coordinates = null
+    }
+
+    async addVideo(path, item) {
+        const ChunkSize = 4096*32
+        let uploadId = await this.uploadVideo(path, ChunkSize, (progress)=>{
+            item.progress = progress
+        })
+        let fileId = await this.waitVideoReady(uploadId)
+
+        item.type = 'VIDEO'
+        item.fileId = fileId
+        item.coordinates = null
     }
 
     async uploadImage(base64) {

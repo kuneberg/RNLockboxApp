@@ -1,19 +1,18 @@
 import * as React from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Styles from '../styles';
-import {Pressable, View, Text} from 'react-native';
+import {Text} from 'react-native';
 
 const style = {
     text: {
         style: {
             fontSize: 18,
+            alignSelf: 'center',
             color: Styles.primaryColor
         }
-
     }
 }
 export default class ClearTextButton extends React.Component {
-
 
     render() {
         let title = this.props.title
@@ -26,5 +25,4 @@ export default class ClearTextButton extends React.Component {
             </TouchableOpacity>
         )
     }
-
 }

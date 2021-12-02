@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { View, Text, Button, FlatList, SafeAreaView } from 'react-native';
+import { View, Text, FlatList, SafeAreaView } from 'react-native';
 import Styles from '../styles';
 import core from '../../core';
 import { observer } from 'mobx-react';
 import AccountListItem from '../components/AccountListItem';
 import LoadingView from '../components/LoadingView';
+import ClearTextButton from "../components/ClearTextButton";
 
 const style = {
   safeArea: {
@@ -91,7 +92,7 @@ export default class TagShareScreen extends React.Component {
     this.setState({...this.state, tag: tag, sharedWith: new Set(tag.sharedWith)})
 
     this.props.navigation.setOptions({
-      headerRight: () => <Button onPress={() => this.onSavePress()} title="Save" />,
+      headerRight: () => <ClearTextButton onPress={() => this.onSavePress()} title="Save" />,
       headerBackTitle: 'Cancel',
     })
   }

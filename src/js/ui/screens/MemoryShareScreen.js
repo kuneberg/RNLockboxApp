@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { View, Text, Button, FlatList, RefreshControl, SafeAreaView, SectionList } from 'react-native';
+import { View, Text, FlatList, SafeAreaView} from 'react-native';
 import Styles from '../styles';
 import core from '../../core';
 import { observer } from 'mobx-react';
-import { HeaderBackButton } from '@react-navigation/native-stack';
 import LoadingView from '../components/LoadingView';
 import AccountListItem from '../components/AccountListItem';
+import ClearTextButton from "../components/ClearTextButton";
 
 const style = {
     safeArea: {
@@ -84,7 +84,7 @@ export default class MemoryShareScreen extends React.Component {
         core.startMemoryEdit(id)
         core.loadAccounts()
         this.props.navigation.setOptions({
-            headerRight: () => <Button onPress={() => this.onSavePress()} title="Save" />,
+            headerRight: () => <ClearTextButton onPress={() => this.onSavePress()} title="Save" />,
             headerBackTitle: 'Cancel',
         })
     }
@@ -92,9 +92,9 @@ export default class MemoryShareScreen extends React.Component {
     async onSavePress() {
         await core.saveMemory()
     }
-    
+
     onAccountSelected(account, isSelected) {
-        
+
         let sharedWith = core.state.editingMemory.sharedWith || []
         let selected = new Set(sharedWith)
         if (isSelected) {
@@ -134,7 +134,7 @@ export default class MemoryShareScreen extends React.Component {
     render() {
         let memory = core.state.editingMemory
         let accounts = core.state.accounts
-        
+
         if (!accounts || !memory) {
             return (<LoadingView></LoadingView>)
         }

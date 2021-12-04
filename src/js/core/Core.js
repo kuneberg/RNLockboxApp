@@ -130,14 +130,24 @@ export default class Core {
 
     async signIn(email, password) {
         try {
-            let result = await this.api.login(email, password)
-            console.log('authenticated ' + result.success)
-            this.state.authenticated = result.success
-            this.state.authErrorMsg = result.message
-            this.state.accId = result.success ? result.data.id : null
-            this.navigateReset('Home')
+            let result = await this.api.login(email, password);
+            let succeeded = result.success;
+            this.state.authenticated = succeeded;
+            console.log('authenticated ' + succeeded);
+            if (succeeded) {
+                this.state.accId = result.data.id;
+                this.navigateReset('Home');
+            } else {
+                this.state.accId = null;
+                this.state.authErrorMsg = result.message;
+            }
+
         } catch (e) {
-            this.navigateReset('ApiUnavailable')
+            if ( e instanceof ApiUnavailableError ) {
+                this.navigateReset('ApiUnavailable');
+            } else {
+                console.log(e);
+            }
         }
     }
 

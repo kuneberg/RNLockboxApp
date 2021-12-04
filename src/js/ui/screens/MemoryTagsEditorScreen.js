@@ -1,12 +1,11 @@
 import * as React from 'react';
-import { Text, SafeAreaView, TouchableOpacity, FlatList, Button } from 'react-native';
+import { Text, SafeAreaView, TouchableOpacity, FlatList } from 'react-native';
 import Styles from '../styles';
 import core from '../../core';
 import { observer } from 'mobx-react';
-import { HeaderBackButton } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LoadingView from '../components/LoadingView';
-import TagsListItem from '../components/TagsListItem';
+import ClearTextButton from "../components/ClearTextButton";
 
 
 
@@ -82,13 +81,13 @@ export default class MemoryTagsEditorScreen extends React.Component {
     }
 
     renderHeaderRight() {
-        return <Button onPress={() => this.onOkPress()} title="OK" />
+        return <ClearTextButton onPress={() => this.onOkPress()} title="Done" />
     }
 
 
     get memoryTags() {
         return this.state.tags
-        
+
     }
 
     onOkPress() {

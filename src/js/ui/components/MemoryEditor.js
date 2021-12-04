@@ -273,7 +273,7 @@ export default class MemoryEditor extends React.Component {
             let ci = { item, index }
             if (item.type == 'LOADING') {
                 childs.push(this.renderLoadingItemThumb(ci, 190, memoryItem))
-            } if (item.type == 'PICTURE') {
+            } else if (item.type == 'PICTURE') {
                 childs.push(this.renderImageItemThumb(ci, 190, memoryItem))
             } else if (item.type == 'VIDEO') {
                 childs.push(this.renderVideoItemThumb(ci, 190, memoryItem))

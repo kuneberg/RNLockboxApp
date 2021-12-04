@@ -92,10 +92,10 @@ export default class MemoryDateEditorScreen extends React.Component {
 
 
     renderHeaderRight() {
-        return <ClearTextButton onPress={() => this.onOkPress()} title="Done" />
+        return <ClearTextButton onPress={() => this.onDonePress()} title="Done" />
     }
 
-    onOkPress() {
+    onDonePress() {
         core.state.editingMemory.eventDate = moment(this.state.eventDate).format('YYYY-MM-DDTHH:mm:ss.SSZ')
         core.goBack()
     }

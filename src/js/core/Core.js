@@ -402,6 +402,7 @@ export default class Core {
 
     async addImage(imageBase64, item) {
         let data = await this.uploadImage(imageBase64)
+        item.progress = 1;
         item.type = data.type
         item.fileId = data.id
         item.coordinates = null

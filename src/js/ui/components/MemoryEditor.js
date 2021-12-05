@@ -147,7 +147,7 @@ export default class MemoryEditor extends React.Component {
         core.navigate('Video', { id, item })
     }
 
-    renderLoadingItemThumb(carouselItem, itemHeight, memoryItem) {
+    renderLoadingItemThumb(carouselItem, itemHeight, mediaItem) {
         return <View style={{
             borderColor: 'rgb(115, 115, 118)',
             borderWidth: 1,
@@ -160,16 +160,16 @@ export default class MemoryEditor extends React.Component {
             alignItems: 'center'
         }}>
             <ActivityIndicator size="large" />
-            <Progress.Bar progress={memoryItem.progress} width={100} />
+            <Progress.Bar progress={mediaItem.progress} width={100} />
         </View>
     }
 
 
-    renderImageItemThumb(carouselItem, itemHeight, memoryItem) {
-        let item = carouselItem.item;
-        let source = core.createReactImageSource(item)
+    renderImageItemThumb(carouselItem, itemHeight) {
+        let mediaItem = carouselItem.mediaItem;
+        let source = core.createReactImageSource(mediaItem)
         console.log('image source: ' + JSON.stringify(source, null, 2))
-        return <ImageBackground key={item.fileId} style={{
+        return <ImageBackground key={mediaItem.fileId} style={{
             ...Styles.theme.memoryEditor.image,
             height: itemHeight,
             width: itemHeight,
@@ -190,10 +190,10 @@ export default class MemoryEditor extends React.Component {
     }
 
     renderVideoItemThumb(carouselItem, itemHeight, memoryItem) {
-        let item = carouselItem.item;
-        let source = core.createThumbSource(item)
+        let mediaItem = carouselItem.mediaItem;
+        let source = core.createThumbSource(mediaItem)
         console.log('video source: ' + JSON.stringify(source, null, 2))
-        return <ImageBackground key={item.fileId} style={{
+        return <ImageBackground key={mediaItem.fileId} style={{
             ...Styles.theme.memoryEditor.image,
             height: itemHeight,
             width: itemHeight,
@@ -206,7 +206,7 @@ export default class MemoryEditor extends React.Component {
         }} imageStyle={{ borderRadius: 12, resizeMode: 'stretch', }} source={source}>
             <View style={{ flex: 1, justifyContent: 'center' }}>
                 <Icon style={{ alignSelf: 'center' }} name={'video-camera'} size={64} color={'#aaa'}
-                    onPress={() => this.play(memoryItem.id, item)}
+                    onPress={() => this.play(memoryItem.id, mediaItem)}
                 />
                 <IconButton
                     style={{
@@ -221,11 +221,10 @@ export default class MemoryEditor extends React.Component {
         </ImageBackground>
     }
 
-    renderOtherItemThumb(carouselItem, itemHeight, memoryItem) {
-        let item = carouselItem.item;
-        let source = core.createReactSource(item)
-        // console.log('image source: ' + JSON.stringify(source, null, 2))
-        return <ImageBackground key={item.fileId} style={{
+    renderOtherItemThumb(carouselItem, itemHeight) {
+        let mediaItem = carouselItem.mediaItem;
+        let source = core.createReactSource(mediaItem)
+        return <ImageBackground key={mediaItem.fileId} style={{
             ...Styles.theme.memoryEditor.image,
             height: itemHeight,
             width: itemHeight,
@@ -265,24 +264,23 @@ export default class MemoryEditor extends React.Component {
     }
 
     renderItems(memoryItem) {
-        let childs = []
-        childs.push(this.renderAddButton())
-        // console.log('render memory items: ' + JSON.stringify(memoryItem.items, null, 2))
-        let items = memoryItem.items ? memoryItem.items : []
-        items.forEach((item, index) => {
-            let ci = { item, index }
-            if (item.type == 'LOADING') {
-                childs.push(this.renderLoadingItemThumb(ci, 190, memoryItem))
-            } else if (item.type == 'PICTURE') {
-                childs.push(this.renderImageItemThumb(ci, 190, memoryItem))
-            } else if (item.type == 'VIDEO') {
-                childs.push(this.renderVideoItemThumb(ci, 190, memoryItem))
+        let children = []
+        children.push(this.renderAddButton())
+        let mediaItems = memoryItem.items ? memoryItem.items : []
+        mediaItems.forEach((mediaItem, index) => {
+            let ci = { mediaItem, index }
+            if (mediaItem.type == 'LOADING') {
+                children.push(this.renderLoadingItemThumb(ci, 190, mediaItem))
+            } else if (mediaItem.type == 'PICTURE') {
+                children.push(this.renderImageItemThumb(ci, 190, memoryItem))
+            } else if (mediaItem.type == 'VIDEO') {
+                children.push(this.renderVideoItemThumb(ci, 190, memoryItem))
             } else {
-                childs.push(this.renderOtherItemThumb(ci, 190, memoryItem))
+                children.push(this.renderOtherItemThumb(ci, 190, memoryItem))
             }
         })
 
-        return childs
+        return children
     }
 
     renderTags(item, tags) {

@@ -222,7 +222,6 @@ export default class TagEditScreen extends React.Component {
     }
 
     render() {
-        console.log("STATE STATE")
         console.log(this.state);
         return (
             <SafeAreaView style={style.safeArea.style}>

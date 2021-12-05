@@ -142,15 +142,18 @@ export default class TagShareScreen extends React.Component {
 
   render() {
     let accounts = core.state.accounts;
+    let ownedAccountId = core.state.accId;
 
-    if (!accounts) {
-      return (<LoadingView></LoadingView>)
+    if (!accounts || !ownedAccountId) {
+      return (<LoadingView/>)
     }
+
+    let accountsToDisplay = accounts.filter(account => account.id !== ownedAccountId);
 
     return (
         <SafeAreaView style={style.safeArea.style}>
           <FlatList
-              data={accounts}
+              data={accountsToDisplay}
               renderItem={({ item, index }) => this.renderAccount(item, index)}
               ListHeaderComponent={() => this.renderHeader()}
               ListEmptyComponent={() => this.renderEmpty()}

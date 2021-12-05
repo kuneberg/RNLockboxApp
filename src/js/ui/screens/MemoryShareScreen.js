@@ -124,7 +124,6 @@ export default class MemoryShareScreen extends React.Component {
     }
 
     renderAccount(account, index, isSelected) {
-        // console.log('host: ' + JSON.stringify(host,null,2))
         let first = index == 0
         return (
             <AccountListItem account={account} first={first} selected={isSelected} onPress={(a) => {this.onAccountSelected(a, !isSelected)}}/>
@@ -132,12 +131,16 @@ export default class MemoryShareScreen extends React.Component {
     }
 
     render() {
-        let memory = core.state.editingMemory
-        let accounts = core.state.accounts
+        let memory = core.state.editingMemory;
+        let accounts = core.state.accounts;
+        let ownedAccountId = core.state.accId;
 
-        if (!accounts || !memory) {
-            return (<LoadingView></LoadingView>)
+        if (!accounts || !memory || !ownedAccountId) {
+            return (<LoadingView/>)
         }
+
+
+        let accountsToDisplay = accounts.filter(account => account.id !== ownedAccountId);
 
         let sharedWith = memory.sharedWith || []
         let selected = new Set(sharedWith)
@@ -145,7 +148,7 @@ export default class MemoryShareScreen extends React.Component {
         return (
             <SafeAreaView style={style.safeArea.style}>
                 <FlatList
-                    data={accounts}
+                    data={accountsToDisplay}
                     renderItem={({ item, index }) => this.renderAccount(item, index, selected.has(item.id))}
                     ListHeaderComponent={() => this.renderHeader()}
                     ListEmptyComponent={() => this.renderEmpty()}

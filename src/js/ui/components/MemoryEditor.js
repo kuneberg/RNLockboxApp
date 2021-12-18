@@ -332,7 +332,7 @@ export default class MemoryEditor extends React.Component {
                     placeholder={"Description"}
                     onChangeText={(description) => item.description = description} />
                 <View style={style.tags.header.row.style}>
-                    <Text style={style.tags.header.text.style}>Date: {eventDate.format('MMM DD YYYY hh:mm')}</Text>
+                    <Text style={style.tags.header.text.style}>Date: {eventDate.format('MMM DD YYYY HH:mm')}</Text>
                     <TouchableOpacity style={{ padding: 5 }} onPress={() => this.onEditDatePress()}>
                         <Icon name={"edit"} size={24} color={Styles.primaryColor} />
                     </TouchableOpacity>

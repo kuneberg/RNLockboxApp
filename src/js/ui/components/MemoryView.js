@@ -195,7 +195,7 @@ export default class MemoryView extends React.Component {
                 <Text style={style.caption.style}>{item.caption}</Text>
                 <View style={style.date.row.style}>
                     <Icon style={style.date.icon.style} name={'calendar'} size={style.date.icon.size} color={style.date.icon.color} />
-                    <Text style={style.date.text.style}>{moment(item.eventDate).format('MMM DD YYYY hh:mm')}</Text>
+                    <Text style={style.date.text.style}>{moment(item.eventDate).format('MMM DD YYYY HH:mm')}</Text>
                 </View>
                 <View style={style.tags.style}>
                     {this.renderTags(item, tags)}

@@ -40,29 +40,7 @@ const style = {
             fontSize: 18,
             padding: 10
         }
-    },
-    tag: {
-        view: {
-            style: {
-                flexDirection: 'row',
-                padding: 10,
-                paddingLeft: 20
-            }
-        },
-        icon: {
-            size: 24,
-            style: {
-            }
-        },
-        text: {
-            style: {
-                marginLeft: 20,
-                fontSize: 20,
-                color: Styles.textColor
-            }
-        }
     }
-
 }
 
 @observer
@@ -101,8 +79,6 @@ export default class MemoryDateEditorScreen extends React.Component {
     }
 
     onChange(e, eventDate) {
-        console.log(e)
-        console.log(eventDate)
         this.setState({
             eventDate
         })

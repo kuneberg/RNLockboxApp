@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Text, SafeAreaView } from 'react-native';
-import Styles from '../styles';
 import core from '../../core';
 import { observer } from 'mobx-react';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import ClearTextButton from "../components/ClearTextButton";
+import styles from "../styles";
 
 
 
@@ -29,14 +29,14 @@ const style = {
             style: {
                 fontSize: 36,
                 fontWeight: "600",
-                color: Styles.textColor
+                color: styles.textColor
             }
 
         }
     },
     label: {
         style: {
-            color: Styles.textColor,
+            color: styles.textColor,
             fontSize: 18,
             padding: 10
         }
@@ -45,6 +45,10 @@ const style = {
 
 @observer
 export default class MemoryDateEditorScreen extends React.Component {
+
+    static get headerOptions() {
+        return {...styles.theme.stackHeaderOptions, title: 'Set Memory Date'}
+    }
 
     constructor(props) {
         super(props)

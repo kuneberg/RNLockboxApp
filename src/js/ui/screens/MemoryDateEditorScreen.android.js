@@ -27,6 +27,10 @@ const style = {
 @observer
 export default class MemoryDateEditorScreen extends React.Component {
 
+  static get headerOptions() {
+    return {headerShown: false}
+  }
+
   constructor(props) {
     super(props)
     this.state = {

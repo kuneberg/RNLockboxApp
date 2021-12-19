@@ -17,7 +17,6 @@ import SignInScreen from './SignInScreen';
 import SignUpScreen from './SignUpScreen';
 import ResetPasswordScreen from './ResetPasswordScreen';
 import DiscoverScreen from './DiscoverScreen';
-import {Platform} from "react-native";
 
 const Stack = createNativeStackNavigator();
 
@@ -40,12 +39,7 @@ export default class HomeRootNavScreen extends React.Component {
             <Stack.Screen name="MemoryEditor" component={MemoryEditorScreen} options={{ ...styles.theme.stackHeaderOptions, title: 'Edit Memory' }} />
             <Stack.Screen name="MemoryShare" component={MemoryShareScreen} options={{ ...styles.theme.stackHeaderOptions, title: 'Share Memory' }} />
             <Stack.Screen name="MemoryTagsEditor" component={MemoryTagsEditorScreen} options={{ ...styles.theme.stackHeaderOptions, title: 'Set Memory Tags' }} />
-            <Stack.Screen name="MemoryDateEditor" component={MemoryDateEditorScreen} options={
-                {...Platform.select({
-                        ios: {...styles.theme.stackHeaderOptions, title: 'Set Memory Date'},
-                        android: {headerShown: false}
-                })}}
-            />
+            <Stack.Screen name="MemoryDateEditor" component={MemoryDateEditorScreen} options={MemoryDateEditorScreen.headerOptions} />
             <Stack.Screen name="Video" component={VideoScreen} options={{ ...styles.theme.stackHeaderOptions, title: 'Video' }} />
             <Stack.Screen name="Image" component={ImageScreen} options={{ ...styles.theme.stackHeaderOptions, title: 'Image' }} />
             <Stack.Screen name="TagEdit" component={TagEditScreen} options={{ headerShown: true, title: 'Edit Tag' }} />

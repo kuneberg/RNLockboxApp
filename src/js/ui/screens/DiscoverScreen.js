@@ -1,12 +1,10 @@
 import * as React from 'react';
-import { View, Text, Button, FlatList, RefreshControl, SafeAreaView, SectionList } from 'react-native';
+import { View, Text, FlatList, RefreshControl, SafeAreaView } from 'react-native';
 import Styles from '../styles';
 import core from '../../core';
 import { observer } from 'mobx-react';
-import MemoriesListItem from '../components/MemoriesListItem';
-import RoundIconButton from '../components/RoundIconButton';
-import moment from 'moment'
 import HostListItem from '../components/HostListItem';
+import ActionButton from "react-native-action-button";
 
 const style = {
     safeArea: {
@@ -99,6 +97,10 @@ export default class DiscoverScreen extends React.Component {
         core.navigate("SignIn");
     }
 
+    onDiscoverBluetoothDevicesPress() {
+        core.navigate('BluetoothDevicesDiscovery');
+    }
+
     renderHeader() {
         return (
             <View style={style.header.view.style}>
@@ -147,8 +149,12 @@ export default class DiscoverScreen extends React.Component {
                         tintColor={style.refresh.tintColor}
                         titleColor={style.refresh.titleColor}
                         refreshing={core.state.discoveryStarted}
-                        onRefresh={() => this.onRefresh()} 
+                        onRefresh={() => this.onRefresh()}
                     />}
+                />
+                <ActionButton
+                    buttonColor={Styles.primaryColor}
+                    onPress={() => this.onDiscoverBluetoothDevicesPress()}
                 />
             </SafeAreaView>
         );

@@ -50,7 +50,7 @@ export default function AccessPointListItem({ accessPoint, onPress, first }) {
       onPress={() => onPress && onPress(accessPoint)}
   >
     <Icon style={style.icon.style} name={icon} size={style.icon.size} color={"#fff"} />
-    <Text style={style.text.style}>{accessPoint.ssid}</Text>
+    <Text style={style.text.style}>{accessPoint.s}</Text>
     <Text style={style.text.style}>{accessPoint.address}</Text>
   </Pressable>)
 }

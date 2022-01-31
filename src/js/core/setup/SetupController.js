@@ -9,10 +9,12 @@ import {
 import {bytesToString, stringToBytes} from "convert-string";
 import {toJS} from 'mobx';
 
-const SERVICE_UUID = "a0b40001-926d-4d61-98df-8c5c62ee53b3";
-const STATE_CHARACTERISTIC_UUID = "a0b40002-926d-4d61-98df-8c5c62ee53b3";
-const DATA_CHARACTERISTIC_UUID = "a0b40003-926d-4d61-98df-8c5c62ee53b3";
-const COMMAND_CHARACTERISTIC_UUID = "a0b40004-926d-4d61-98df-8c5c62ee53b3";
+const SCANNER_SERVICE_UUID = "a0b40001-926d-4d61-98df-8c5c62ee53b3";
+const CONNECTOR_SERVICE_UUID = "a0b40001-927d-4d61-98df-8c5c62ee53b3";
+const SCANNER_REQUEST_CHARACTERISTIC_UUID = "a0b40002-926d-4d61-98df-8c5c62ee53b3";
+const CONNECTOR_REQUEST_CHARACTERISTIC_UUID = "a0b40002-927d-4d61-98df-8c5c62ee53b3";
+const SCANNER_RESPONSE_CHARACTERISTIC_UUID = "a0b40003-926d-4d61-98df-8c5c62ee53b3";
+const CONNECTOR_RESPONSE_CHARACTERISTIC_UUID = "a0b40003-927d-4d61-98df-8c5c62ee53b3";
 
 export default class SetupController {
   _state = null;
@@ -77,7 +79,7 @@ export default class SetupController {
     await this.disconnect();
 
     this.state.discoveredDevices.clear();
-    await BleManager.scan([SERVICE_UUID], 60, true);
+    await BleManager.scan([SCANNER_SERVICE_UUID, CONNECTOR_SERVICE_UUID], 60, true);
     this.state.scanningForDevices = true;
     console.log("Scanning for devices started");
   }
@@ -86,16 +88,30 @@ export default class SetupController {
     await BleManager.stopScan();
   }
 
+  async refreshAPs() {
+    await this.connectAndScanForAPs(this.state.selectedDevice);
+  }
+
   async connectAndScanForAPs(device) {
     if (this.state.scanningForDevices) {
       await this.stopScan()
     }
+
+    this.state.discoveredAccessPoints.clear();
     this.state.selectedDevice = device;
     this.state.scanningForAPs = true;
+
     await this.connect();
     await this.retrieveServices();
     await this.startNotifications();
+    await this.requestMtu()
     await this.sendScanCommand();
+  }
+
+  async requestMtu() {
+    let deviceId = this.state.selectedDevice.id;
+    await BleManager.requestMTU(deviceId, 61);
+    console.log("MTU:", 64);
   }
 
   async connect() {
@@ -103,7 +119,6 @@ export default class SetupController {
     console.log("Connecting to device:", deviceId);
     await BleManager.connect(deviceId);
     console.log("Connected to device:", deviceId);
-    await BleManager.requestMTU(deviceId, 201);
   }
 
   async disconnect() {
@@ -122,39 +137,28 @@ export default class SetupController {
 
   async startNotifications() {
     let deviceId = this.state.selectedDevice.id;
-    console.log(`Starting notifications ... device id: ${deviceId}, service uuid: ${SERVICE_UUID}, characteristic uuid: ${STATE_CHARACTERISTIC_UUID}`);
+    console.log(`Starting notifications ... device id: ${deviceId}, service uuid: ${SCANNER_SERVICE_UUID}, characteristic uuid: ${SCANNER_RESPONSE_CHARACTERISTIC_UUID}`);
     await BleManager.startNotification(deviceId,
-        SERVICE_UUID,
-        STATE_CHARACTERISTIC_UUID);
+        SCANNER_SERVICE_UUID,
+        SCANNER_RESPONSE_CHARACTERISTIC_UUID);
+    console.log(`Starting notifications ... device id: ${deviceId}, service uuid: ${CONNECTOR_SERVICE_UUID}, characteristic uuid: ${CONNECTOR_RESPONSE_CHARACTERISTIC_UUID}`);
+    await BleManager.startNotification(deviceId,
+        CONNECTOR_SERVICE_UUID,
+        CONNECTOR_RESPONSE_CHARACTERISTIC_UUID);
     console.log("Started notifications", deviceId);
   }
 
   async sendScanCommand() {
     let deviceId = this.state.selectedDevice.id;
-    let command = JSON.stringify({command: "COMMAND_SCAN"});
+    let command = JSON.stringify({});
     let data = stringToBytes(command);
     console.log("Sending scan command ...", command);
     let response  = await BleManager.write(deviceId,
-        SERVICE_UUID,
-        COMMAND_CHARACTERISTIC_UUID,
+        SCANNER_SERVICE_UUID,
+        SCANNER_REQUEST_CHARACTERISTIC_UUID,
         data, data.length);
 
     console.log("Sent scan command");
-  }
-
-  async fetchAccessPoints() {
-    let deviceId = this.state.selectedDevice.id;
-    let data = await BleManager.read(
-        deviceId,
-        SERVICE_UUID,
-        DATA_CHARACTERISTIC_UUID);
-
-    console.log(bytesToString(data));
-
-    let accessPoints = JSON.parse(bytesToString(data));
-    this.state.discoveredAccessPoints = accessPoints;
-    this.state.scanningForAPs = false;
-    console.log(accessPoints);
   }
 
   handleStopScan() {
@@ -183,11 +187,11 @@ export default class SetupController {
   }
 
   async handleCharacteristicUpdated(value, deviceId, characteristic, service) {
-    let state = JSON.parse(bytesToString(value));
-    console.log("State changed:", state);
+    let data = bytesToString(value);
+    let ap = JSON.parse(data);
+    this.state.scanningForAPs = false;
+    console.log("AP received:", ap);
 
-    if (state.state === 'STATE_SCANNED') {
-      await this.fetchAccessPoints();
-    }
+    this.state.discoveredAccessPoints.push(ap);
   }
 }

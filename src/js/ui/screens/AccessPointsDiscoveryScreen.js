@@ -11,6 +11,7 @@ import Styles from "../styles";
 import SquareButton from "../components/SquareButton";
 import AccessPointListItem from "../components/AccessPointListItem";
 import setup from "../../core/setup";
+import core from "../../core";
 
 const style = {
   safeArea: {
@@ -97,8 +98,6 @@ const style = {
 export default class AccessPointsDiscoveryScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
   }
 
   async componentDidMount() {
@@ -159,8 +158,15 @@ export default class AccessPointsDiscoveryScreen extends React.Component {
   renderAccessPoint(accessPoint, index) {
     let first = index == 0
     return (
-        <AccessPointListItem accessPoint={accessPoint} first={first} />
+        <AccessPointListItem
+            accessPoint={accessPoint}
+            first={first}
+            onPress={(accessPoint) => {this.onAccessPointSelected(accessPoint)}}/>
     )
+  }
+
+  onAccessPointSelected(accessPoint) {
+    core.navigate('AccessPointConnection', { accessPoint: accessPoint });
   }
 
   renderContents(scanning, accessPoints, discovered) {

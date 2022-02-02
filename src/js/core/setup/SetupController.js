@@ -108,9 +108,14 @@ export default class SetupController {
     await this.sendScanCommand();
   }
 
+  async connectAP(ssid, password) {
+    this.state.connectingToAp = true;
+    await this.sendConnectApCommand(ssid, password);
+  }
+
   async requestMtu() {
     let deviceId = this.state.selectedDevice.id;
-    await BleManager.requestMTU(deviceId, 61);
+    await BleManager.requestMTU(deviceId, 64);
     console.log("MTU:", 64);
   }
 
@@ -161,6 +166,19 @@ export default class SetupController {
     console.log("Sent scan command");
   }
 
+  async sendConnectApCommand(ssid, password) {
+    let deviceId = this.state.selectedDevice.id;
+    let command = JSON.stringify({s: ssid, p: password});
+    let data = stringToBytes(command);
+    console.log("Sending join command ...", command);
+    let response  = await BleManager.write(deviceId,
+        CONNECTOR_SERVICE_UUID,
+        CONNECTOR_REQUEST_CHARACTERISTIC_UUID,
+        data, data.length);
+
+    console.log("Sent join command");
+  }
+
   handleStopScan() {
     this.state.scanningForDevices = false;
     console.log("Scanning for devices stopped");
@@ -187,11 +205,20 @@ export default class SetupController {
   }
 
   async handleCharacteristicUpdated(value, deviceId, characteristic, service) {
-    let data = bytesToString(value);
-    let ap = JSON.parse(data);
-    this.state.scanningForAPs = false;
-    console.log("AP received:", ap);
+    if (characteristic === SCANNER_RESPONSE_CHARACTERISTIC_UUID) {
+      let data = bytesToString(value);
+      let ap = JSON.parse(data);
+      this.state.scanningForAPs = false;
+      console.log("AP received:", ap);
 
-    this.state.discoveredAccessPoints.push(ap);
+      this.state.discoveredAccessPoints.push(ap);
+    }
+
+    if (characteristic === CONNECTOR_RESPONSE_CHARACTERISTIC_UUID) {
+      let data = bytesToString(value);
+      let response = JSON.parse(data);
+      this.state.connectingToAp = false;
+      console.log("Response received:", response);
+    }
   }
 }

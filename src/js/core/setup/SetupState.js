@@ -10,6 +10,7 @@ export default class SetupState {
   @observable _selectedDevice = null;
   @observable _scanningForAPs = false;
   @observable _discoveredAccessPoints = [];
+  @observable _connectingToAp = false;
   @observable _accessPoint = null;
   @observable _deviceState = null;
 
@@ -71,5 +72,13 @@ export default class SetupState {
 
   set discoveredAccessPoints(value) {
     this._discoveredAccessPoints = value;
+  }
+
+  get connectingToAp() {
+    return this._connectingToAp;
+  }
+
+  set connectingToAp(value) {
+    this._connectingToAp = value;
   }
 }

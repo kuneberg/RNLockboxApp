@@ -19,6 +19,7 @@ import ResetPasswordScreen from './ResetPasswordScreen';
 import DiscoverScreen from './DiscoverScreen';
 import BluetoothDevicesDiscoveryScreen from "./BluetoothDevicesDiscoveryScreen";
 import AccessPointsDiscoveryScreen from "./AccessPointsDiscoveryScreen";
+import AccessPointConnectionScreen from "./AccessPointConnectionScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +35,7 @@ export default class HomeRootNavScreen extends React.Component {
             <Stack.Screen name="Discover" component={DiscoverScreen} options={{headerShown: false}}/>
             <Stack.Screen name="BluetoothDevicesDiscovery" component={BluetoothDevicesDiscoveryScreen} options={{headerShown: false}}/>
             <Stack.Screen name="AccessPointsDiscovery" component={AccessPointsDiscoveryScreen} options={{headerShown: false}}/>
+            <Stack.Screen name="AccessPointConnection" component={AccessPointConnectionScreen} options={{headerShown: false}}/>
             <Stack.Screen name="SignIn" component={SignInScreen} options={{...styles.theme.stackHeaderOptions, title: 'Sign In' }}/>
             <Stack.Screen name="SignUp" component={SignUpScreen} options={{...styles.theme.stackHeaderOptions, title: 'Sign Up' }}/>
             <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} options={{...styles.theme.stackHeaderOptions, title: 'Reset Password' }}/>

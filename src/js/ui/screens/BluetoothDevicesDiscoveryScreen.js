@@ -55,7 +55,8 @@ const style = {
         fontSize: 14,
         fontWeight: "600",
         alignSelf: 'center',
-        color: Styles.textColor
+        color: Styles.textColor,
+        paddingBottom: 20,
       }
     }
   },
@@ -149,7 +150,7 @@ export default class BluetoothDevicesDiscoveryScreen extends React.Component {
   renderSearchingIndicator() {
     return (
         <View>
-          <Text style={style.footer.text.style}>{'Searching for devices ...'}</Text>
+          <Text style={style.footer.text.style}>{'Searching for devices .....'}</Text>
           <ActivityIndicator size="large" animating={true} />
         </View>
     )
@@ -163,6 +164,7 @@ export default class BluetoothDevicesDiscoveryScreen extends React.Component {
     return (
         <SafeAreaView style={style.safeArea.style}>
           <FlatList
+              contentContainerStyle={{flexGrow: 1, justifyContent: 'flex-end'}}
               data={devices}
               renderItem={({ item, index }) => this.renderDevice(item, index)}
               ListHeaderComponent={() => this.renderHeader(discovered)}

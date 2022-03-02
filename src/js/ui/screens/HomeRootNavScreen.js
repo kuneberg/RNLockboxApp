@@ -31,11 +31,13 @@ export default class HomeRootNavScreen extends React.Component {
 
     render() {
         let initialRouteName = core.state.authenticated ? "Home" : "Discover"
+        // initialRouteName = 'AccessPointConnection'
+        // initialRouteName = 'AccessPointsDiscovery'
         return <Stack.Navigator initialRouteName={initialRouteName}>
             <Stack.Screen name="Discover" component={DiscoverScreen} options={{headerShown: false}}/>
-            <Stack.Screen name="BluetoothDevicesDiscovery" component={BluetoothDevicesDiscoveryScreen} options={{headerShown: false}}/>
-            <Stack.Screen name="AccessPointsDiscovery" component={AccessPointsDiscoveryScreen} options={{headerShown: false}}/>
-            <Stack.Screen name="AccessPointConnection" component={AccessPointConnectionScreen} options={{headerShown: false}}/>
+            <Stack.Screen name="BluetoothDevicesDiscovery" component={BluetoothDevicesDiscoveryScreen} options={{ title: 'LockBox Setup' }}/>
+            <Stack.Screen name="AccessPointsDiscovery" component={AccessPointsDiscoveryScreen} options={{ title: 'LockBox Setup' }}/>
+            <Stack.Screen name="AccessPointConnection" component={AccessPointConnectionScreen} options={{ title: 'LockBox Setup' }}/>
             <Stack.Screen name="SignIn" component={SignInScreen} options={{...styles.theme.stackHeaderOptions, title: 'Sign In' }}/>
             <Stack.Screen name="SignUp" component={SignUpScreen} options={{...styles.theme.stackHeaderOptions, title: 'Sign Up' }}/>
             <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} options={{...styles.theme.stackHeaderOptions, title: 'Reset Password' }}/>

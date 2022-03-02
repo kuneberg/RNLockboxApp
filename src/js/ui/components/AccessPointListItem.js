@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Pressable, View, Text } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Styles from "../styles";
 
 
@@ -42,14 +43,15 @@ const style = {
 export default function AccessPointListItem({ accessPoint, onPress, first }) {
   let viewStyle = first ? { ...style.view.style, ...style.view.first.style } : style.view.style
   let pressedStyle = { ...viewStyle, ...style.view.pressed.style }
-  let icon = 'square'
+  console.log(`rendering AP: ${accessPoint.s} with signal ${accessPoint.q}`)
+  let icon = accessPoint.q === 0 ? `wifi-strength-outline` : `wifi-strength-${accessPoint.q}`
   return (<Pressable
       style={({ pressed }) => {
         return pressed ? pressedStyle : viewStyle
       }}
       onPress={() => onPress && onPress(accessPoint)}
   >
-    <Icon style={style.icon.style} name={icon} size={style.icon.size} color={"#fff"} />
+    <MaterialCommunityIcon style={style.icon.style} name={icon} size={style.icon.size} color={"#fff"}/>
     <Text style={style.text.style}>{accessPoint.s}</Text>
     <Text style={style.text.style}>{accessPoint.address}</Text>
   </Pressable>)

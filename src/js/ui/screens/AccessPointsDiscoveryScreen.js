@@ -1,4 +1,4 @@
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 import * as React from "react";
 import {
   ActivityIndicator,
@@ -19,7 +19,7 @@ const style = {
       flex: 1
     }
   },
-  scanning : {
+  scanning: {
     view: {
       style: {
         padding: 20
@@ -30,7 +30,8 @@ const style = {
         fontSize: 14,
         fontWeight: "600",
         alignSelf: 'center',
-        color: Styles.textColor
+        color: Styles.textColor,
+        marginBottom: 20
       }
     }
   },
@@ -38,7 +39,7 @@ const style = {
     view: {
       style: {
         flexDirection: 'row',
-        justifyContent:'space-between',
+        justifyContent: 'space-between',
         padding: 20,
         paddingTop: 50,
         paddingBottom: 30,
@@ -53,7 +54,7 @@ const style = {
 
     }
   },
-  footer : {
+  footer: {
     view: {
       style: {
         padding: 20
@@ -72,7 +73,7 @@ const style = {
     view: {
       style: {
         flexDirection: 'row',
-        justifyContent:'space-between',
+        justifyContent: 'space-between',
         padding: 20,
         paddingTop: 50,
         paddingBottom: 30,
@@ -115,53 +116,54 @@ export default class AccessPointsDiscoveryScreen extends React.Component {
 
   renderScanningIndicator() {
     return (
-        <View style={style.scanning.view.style}>
-          <Text style={style.scanning.text.style}>{'Searching for access points ...'}</Text>
-          <ActivityIndicator size="large" animating={true} />
-        </View>
+      <View style={style.scanning.view.style}>
+        <Text style={style.scanning.text.style}>{'Searching for access points ...'}</Text>
+        <ActivityIndicator size="large" animating={true} />
+      </View>
     )
   }
 
   renderAccessPoints(accessPoints) {
     return (
-        <FlatList
-            data={accessPoints}
-            renderItem={({ item, index }) => this.renderAccessPoint(item, index)}
-            ListHeaderComponent={() => this.renderHeader()}
-            ListFooterComponent={() => this.renderFooter()}
-            keyExtractor={item => item.id}
-        />
+      <FlatList
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-end' }}
+        data={accessPoints}
+        renderItem={({ item, index }) => this.renderAccessPoint(item, index)}
+        ListHeaderComponent={() => this.renderHeader()}
+        ListFooterComponent={() => this.renderFooter()}
+        keyExtractor={item => item.id}
+      />
     )
   }
 
   renderHeader() {
     return (
-        <View style={style.header.view.style}>
-          <Text style={style.header.text.style}>{'Select access point to connect'}</Text>
-        </View>
+      <View style={style.header.view.style}>
+        <Text style={style.header.text.style}>{'Select WiFi access point to connect'}</Text>
+      </View>
     )
   }
 
   renderFooter() {
     return (
-        <View style={style.footer.view.style}>
-          <View>
-            <SquareButton
-                style={style.refreshButton}
-                title="Refresh"
-                onPress={async() => await setup.refreshAPs()}/>
-          </View>
+      <View style={style.footer.view.style}>
+        <View>
+          <SquareButton
+            style={style.refreshButton}
+            title="Refresh"
+            onPress={async () => await setup.refreshAPs()} />
         </View>
+      </View>
     )
   }
 
   renderAccessPoint(accessPoint, index) {
     let first = index == 0
     return (
-        <AccessPointListItem
-            accessPoint={accessPoint}
-            first={first}
-            onPress={(accessPoint) => {this.onAccessPointSelected(accessPoint)}}/>
+      <AccessPointListItem
+        accessPoint={accessPoint}
+        first={first}
+        onPress={(accessPoint) => { this.onAccessPointSelected(accessPoint) }} />
     )
   }
 
@@ -184,9 +186,9 @@ export default class AccessPointsDiscoveryScreen extends React.Component {
 
   renderNotDiscovered() {
     return (
-        <View style={style.empty.view}>
-          <Text style={style.empty.text}>No access points available</Text>
-        </View>
+      <View style={style.empty.view}>
+        <Text style={style.empty.text}>No access points available</Text>
+      </View>
     )
   }
 
@@ -196,11 +198,11 @@ export default class AccessPointsDiscoveryScreen extends React.Component {
     let discovered = accessPoints.length > 0;
 
     return (
-        <SafeAreaView style={style.safeArea.style}>
-          {
-            this.renderContents(scanning, accessPoints, discovered)
-          }
-        </SafeAreaView>
+      <SafeAreaView style={style.safeArea.style}>
+        {
+          this.renderContents(scanning, accessPoints, discovered)
+        }
+      </SafeAreaView>
     )
   }
 }

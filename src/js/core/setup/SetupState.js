@@ -11,11 +11,59 @@ export default class SetupState {
   @observable _scanningForAPs = false;
   @observable _discoveredAccessPoints = [];
   @observable _connectingToAp = false;
+  @observable _connectingError = null;//'Connection Error. Please check access point name and password.';
+  @observable _connectedToAp = false;
+  @observable _deviceIp = null;
   @observable _accessPoint = null;
   @observable _deviceState = null;
 
   constructor() {
     makeAutoObservable(this);
+
+    // for (let i = 0; i < 5; i++) {
+    //   this._discoveredDevices.set(`${i}`,
+    //   {
+    //     id: `${i}`,
+    //     name: `LockBox 000${i+1}`,
+    //     rssi: 4
+    //   });
+    // }
+    // this._discoveredDevices.set("1",
+    //   {
+    //     id: "1",
+    //     name: "LockBox 0001",
+    //     rssi: 4
+    //   });
+    // this._discoveredDevices.set("2",
+    //   {
+    //     id: "2",
+    //     name: "LockBox 0002",
+    //     rssi: 4
+    //   });
+
+    this._discoveredAccessPoints = [
+      {
+        s: "Kunegerg_5Ghz",
+        q: 3
+      },
+      {
+        s: "Kunegerg_2Ghz",
+        q: 4
+      },
+      {
+        s: "SaltBox",
+        q: 2
+      },
+      {
+        s: "Sunrise",
+        q: 1
+      },
+      {
+        s: "Sunrise_5G",
+        q: 0
+      }
+
+    ]
   }
 
   get initialized() {
@@ -50,6 +98,10 @@ export default class SetupState {
     this._discoveredDevices = value;
   }
 
+  get discoveredDevicesArray() {
+    return this.discoveredDevices.values()
+  }
+
   get selectedDevice() {
     return this._selectedDevice;
   }
@@ -80,5 +132,29 @@ export default class SetupState {
 
   set connectingToAp(value) {
     this._connectingToAp = value;
+  }
+
+  get connectedToAp() {
+    return this._connectedToAp;
+  }
+
+  set connectedToAp(value) {
+    this._connectedToAp = value;
+  }
+
+  get connectingError() {
+    return this._connectingError;
+  }
+
+  set connectingError(value) {
+    this._connectingError = value;
+  }
+
+  get deviceIp() {
+    return this._deviceIp;
+  }
+
+  set deviceIp(value) {
+    this._deviceIp = value;
   }
 }

@@ -19,12 +19,24 @@ const style = {
     }
 }
 
-export default class LoadingView extends React.Component {
-  render() {
-    return (
-      <View style={style.view.style}>
-          <Text style={style.text.style}>Loading...</Text>
-      </View>
-    );
+// export default class LoadingView extends React.Component {
+//   render() {
+//     return (
+//       <View style={style.view.style}>
+//           <Text style={style.text.style}>Loading...</Text>
+//       </View>
+//     );
+//   }
+// }
+
+
+export default function LoadingView({ text }) {
+  if (!text) {
+    text = 'Loading...'
   }
+  return (
+    <View style={style.view.style}>
+          <Text style={style.text.style}>{text}</Text>
+      </View>
+  )
 }

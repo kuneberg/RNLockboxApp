@@ -35,6 +35,10 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>This app requires access to Bluetooth to setup lockbox initial settings</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>This app requires access to Bluetooth to setup lockbox initial settings</string>
 	<key>NSBonjourServices</key>
 	<array>
 		<string>_lockbox._tcp</string>
@@ -92,7 +96,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>This app requires access to Bluetooth</string>
 </dict>
 </plist>

@@ -47,32 +47,47 @@ export default class SetupController {
     }
   }
 
-  async hasPermission() {
-    if (Platform.OS === 'android' && Platform.Version >= 23) {
-      let hasPermission = await PermissionsAndroid.check(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
-      console.log("Has permission:", hasPermission);
-      return hasPermission;
+  permissions() {
+    if (Platform.OS !== 'android') {
+      return [];
     }
-    return true;
+    if (Platform.Version >= 31) {
+      return [PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN, PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT];
+    }
+    if (Platform.Version >= 29) {
+      return [PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION];
+    }
+    if (Platform.Version >= 23) {
+      return [PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION];
+    }
+
+    return [];
+  }
+  async hasPermission(permission) {
+      let hasPermission = await PermissionsAndroid.check(permission);
+      console.log(`${permission} - ${hasPermission}`);
+      return hasPermission;
   }
 
-  async grantPermission() {
-    let granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
+  async grantPermission(permission) {
+    let granted = await PermissionsAndroid.request(permission);
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      console.log("Permission granted");
+      console.log(`${permission} granted`);
       return true;
     } else {
-      console.log("Permission denied");
+      console.log(`${permission} denied`);
       return false;
     }
   }
 
   async startScan() {
-    if (!await this.hasPermission()) {
-      if (!await this.grantPermission()) {
-        this.state.scanningForDevicesError = "Insufficient permissions";
-        return;
+    let permissions = this.permissions();
+    for (let permission of permissions) {
+      if (!await this.hasPermission(permission)) {
+        if (!await this.grantPermission(permission)) {
+          this.state.scanningForDevicesError = "Insufficient permissions";
+          return;
+        }
       }
     }
 

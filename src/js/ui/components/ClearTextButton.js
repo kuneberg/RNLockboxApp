@@ -17,11 +17,14 @@ export default class ClearTextButton extends React.Component {
     render() {
         let title = this.props.title
         let onPress = this.props.onPress
+        let disabled = this.props.disabled || false
+        let textStyle = disabled? [style.text.style, {color: Styles.inactiveColor}] : style.text.style;
         return (
             <TouchableOpacity
                 style={{ padding: 5 }}
+                disabled={disabled}
                 onPress={() => onPress()}>
-                <Text style={style.text.style}>{title}</Text>
+                <Text style={textStyle}>{title}</Text>
             </TouchableOpacity>
         )
     }

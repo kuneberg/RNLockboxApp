@@ -16,8 +16,7 @@ export default class Styles {
     }
 
     static get inactiveColor() {
-        // return 'rgb(115, 115, 118)'
-        return 'rgb(200, 200, 200)'
+        return '#6c6c6c'
     }
 
     static get borderColor() {

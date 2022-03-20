@@ -369,9 +369,11 @@ export default class Core {
     }
 
     async addMediaItems(mediaItems) {
+        this.state.mediaItemUploadInProgress = true;
         for (const mediaItem of mediaItems) {
             await this.addMediaItem(mediaItem);
         }
+        this.state.mediaItemUploadInProgress = false;
     }
 
     async addMediaItem(mediaItem) {

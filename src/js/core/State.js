@@ -18,6 +18,8 @@ export default class State {
 
     @observable _editingMemory = null
 
+    @observable _mediaItemUploadInProgress = false
+
     @observable _tags = null
 
     @observable _lockboxHosts = [
@@ -159,5 +161,13 @@ export default class State {
     @action
     setEditingMemory(memory) {
         this.editingMemory = memory
+    }
+
+    get mediaItemUploadInProgress() {
+        return this._mediaItemUploadInProgress
+    }
+
+    set mediaItemUploadInProgress(value) {
+        this._mediaItemUploadInProgress = value
     }
 }

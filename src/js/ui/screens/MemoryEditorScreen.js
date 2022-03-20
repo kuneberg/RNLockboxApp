@@ -13,6 +13,21 @@ const style = {
 }
 
 @observer
+class MemoryEditorHeader extends React.Component {
+    render() {
+        let disabled = core.state.mediaItemUploadInProgress;
+        return <ClearTextButton
+            disabled = {disabled}
+            onPress={() => this.onAddPress()}
+            title="Save" />
+    }
+
+    async onAddPress() {
+        await core.saveMemory()
+    }
+}
+
+@observer
 export default class MemoryEditorScreen extends React.Component {
 
     componentDidMount() {
@@ -24,17 +39,9 @@ export default class MemoryEditorScreen extends React.Component {
             core.startMemoryEdit(id)
         }
         this.props.navigation.setOptions({
-            headerRight: () => this.renderHeaderRight(),
+            headerRight: () => (<MemoryEditorHeader />),
             headerBackTitle: 'Cancel',
         })
-    }
-
-    async onAddPress() {
-        await core.saveMemory()
-    }
-
-    renderHeaderRight() {
-        return <ClearTextButton onPress={() => this.onAddPress()} title="Save" />
     }
 
     onEditTagsPress() {

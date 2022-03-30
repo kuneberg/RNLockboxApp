@@ -17,6 +17,12 @@ export default class ImageScreen extends React.Component {
   constructor() {
     super();
     this.state = {}
+
+    Dimensions.addEventListener('change', () => {
+      this.setState({
+          orientation: isPortrait() ? 'portrait' : 'landscape'
+      });
+    });
   }
   async componentDidMount() {
     let item = this.props.route.params.item
@@ -37,6 +43,7 @@ export default class ImageScreen extends React.Component {
     let width = Dimensions.get('window').width
     let height = Dimensions.get('window').height
 
+    console.log('render image')
     return (
       <SafeAreaView style={style.safeArea.style}>
         <ImageView source={this.state.source}
@@ -50,6 +57,11 @@ export default class ImageScreen extends React.Component {
   }
 }
 
+
+function isPortrait() {
+  const dim = Dimensions.get('screen');
+  return dim.height >= dim.width;
+};
 
 function ImageView({ source, screenWidth, screenHeight, originalImageWidth, originalImageHeight }) {
   let headerHeight = useHeaderHeight()

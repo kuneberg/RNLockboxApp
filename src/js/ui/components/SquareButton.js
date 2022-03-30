@@ -12,3 +12,4 @@ export default class SquareButton extends React.Component {
     );
   }
 }
+

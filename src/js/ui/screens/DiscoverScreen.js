@@ -5,6 +5,7 @@ import core from '../../core';
 import { observer } from 'mobx-react';
 import HostListItem from '../components/HostListItem';
 import ActionButton from "react-native-action-button";
+import ClearTextButton from '../components/ClearTextButton';
 
 const style = {
     safeArea: {
@@ -22,8 +23,8 @@ const style = {
     header: {
         view: {
             style: {
-                flexDirection: 'row',
-                justifyContent:'space-between',
+                // flexDirection: 'row',
+                justifyContent:'flex-start',
                 padding: 20,
                 paddingTop: 50,
                 paddingBottom: 30,
@@ -36,6 +37,26 @@ const style = {
                 color: Styles.textColor
             }
 
+        },
+        sub: {
+            view: {
+                style: {
+                    flexDirection: 'row',
+                    justifyContent:'flex-start',
+                    alignItems: 'center'
+                    // padding: 20,
+                    // paddingTop: 50,
+                    // paddingBottom: 30,
+                }
+            },
+            text: {
+                style: {
+                    fontSize: 20,
+                    fontWeight: "600",
+                    color: Styles.textColor
+                }
+    
+            },
         }
     },
     empty: {
@@ -105,6 +126,10 @@ export default class DiscoverScreen extends React.Component {
         return (
             <View style={style.header.view.style}>
                 <Text style={style.header.text.style}>{'Select device'}</Text>
+                <View style={style.header.sub.view.style}>
+                    <Text style={style.header.sub.text.style}>{'or'}</Text>
+                    <ClearTextButton title="Add New One" onPress={() => this.onDiscoverBluetoothDevicesPress()}></ClearTextButton>
+                </View>
             </View>
         )
     }
@@ -152,10 +177,10 @@ export default class DiscoverScreen extends React.Component {
                         onRefresh={() => this.onRefresh()}
                     />}
                 />
-                <ActionButton
+                {/* <ActionButton
                     buttonColor={Styles.primaryColor}
                     onPress={() => this.onDiscoverBluetoothDevicesPress()}
-                />
+                /> */}
             </SafeAreaView>
         );
     }

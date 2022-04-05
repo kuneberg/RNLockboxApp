@@ -4,6 +4,7 @@ import { observable, action, makeAutoObservable } from "mobx"
 export default class SetupState {
 
   @observable _initialized = false;
+  @observable _btEnabled = false;
   @observable _scanningForDevices = false;
   @observable _scanningForDevicesError = null;
   @observable _discoveredDevices = new Map();
@@ -72,6 +73,14 @@ export default class SetupState {
 
   set initialized(value) {
     this._initialized = value;
+  }
+
+  get btEnabled() {
+    return this._btEnabled;
+  }
+
+  set btEnabled(value) {
+    this._btEnabled = value;
   }
 
   get scanningForDevices() {

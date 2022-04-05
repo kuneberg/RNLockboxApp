@@ -287,6 +287,8 @@ PODS:
     - React-perflogger (= 0.66.1)
   - rn-fetch-blob (0.12.0):
     - React-Core
+  - RNBluetoothStateManager (1.3.2):
+    - React
   - RNCMaskedView (0.1.11):
     - React
   - RNDateTimePicker (3.5.2):
@@ -382,6 +384,7 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
+  - RNBluetoothStateManager (from `../node_modules/react-native-bluetooth-state-manager`)
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNFS (from `../node_modules/react-native-fs`)
@@ -468,6 +471,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   rn-fetch-blob:
     :path: "../node_modules/rn-fetch-blob"
+  RNBluetoothStateManager:
+    :path: "../node_modules/react-native-bluetooth-state-manager"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
   RNDateTimePicker:
@@ -527,6 +532,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 33a949a51bec5f8a3c9e8d8092deb259600d761e
   ReactCommon: 620442811dc6f707b4bf5e3b27d4f19c12d5a821
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
+  RNBluetoothStateManager: 3929aefcf1bac102702f34982984f6699f14f80b
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNDateTimePicker: 7658208086d86d09e1627b5c34ba0cf237c60140
   RNFS: 3ab21fa6c56d65566d1fb26c2228e2b6132e5e32

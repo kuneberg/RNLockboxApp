@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { bytesToString, stringToBytes } from "convert-string";
 import { toJS } from 'mobx';
+import BluetoothStateManager from 'react-native-bluetooth-state-manager';
 
 const SCANNER_SERVICE_UUID = "a0b40001-926d-4d61-98df-8c5c62ee53b3";
 const CONNECTOR_SERVICE_UUID = "a0b40001-927d-4d61-98df-8c5c62ee53b3";
@@ -40,6 +41,18 @@ export default class SetupController {
       this._bleEmitter.addListener("BleManagerDidUpdateValueForCharacteristic",
         ({ value, device, characteristic, service }) => this.handleCharacteristicUpdated(value, device, characteristic, service)
       );
+
+
+      let btState = await BluetoothStateManager.getState();
+      console.log(`Initial BT Adapter state is ${btState}`);
+      this.state.btEnabled = btState == 'PoweredOn';
+
+      BluetoothStateManager.onStateChange((newBtState) => { 
+        console.log(`New BT Adapter state is ${newBtState}`);
+        this.state.btEnabled = newBtState == 'PoweredOn' 
+      }, true);
+
+
       this.state.initialized = true;
       console.log("Module initialized");
     } catch (e) {

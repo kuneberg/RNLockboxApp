@@ -1,4 +1,4 @@
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 import * as React from "react";
 import {
   ActivityIndicator,
@@ -8,6 +8,7 @@ import {
 import DeviceListItem from "../components/DeviceListItem";
 import Styles from "../styles";
 import SquareButton from "../components/SquareButton";
+import ErrorView from "../components/ErrorView";
 import core from "../../core";
 import setup from "../../core/setup";
 
@@ -29,7 +30,7 @@ const style = {
     view: {
       style: {
         flexDirection: 'row',
-        justifyContent:'space-between',
+        justifyContent: 'space-between',
         padding: 20,
         paddingTop: 50,
         paddingBottom: 30,
@@ -44,7 +45,7 @@ const style = {
 
     }
   },
-  footer : {
+  footer: {
     view: {
       style: {
         padding: 20
@@ -64,7 +65,7 @@ const style = {
     view: {
       style: {
         flexDirection: 'row',
-        justifyContent:'space-between',
+        justifyContent: 'space-between',
         padding: 20,
         paddingTop: 50,
         paddingBottom: 30,
@@ -103,10 +104,10 @@ export default class BluetoothDevicesDiscoveryScreen extends React.Component {
   renderDevice(device, index) {
     let first = index == 0
     return (
-        <DeviceListItem
-            device={device}
-            first={first}
-            onPress={(device) => {this.onDeviceSelected(device)}}/>
+      <DeviceListItem
+        device={device}
+        first={first}
+        onPress={(device) => { this.onDeviceSelected(device) }} />
     )
   }
 
@@ -114,12 +115,12 @@ export default class BluetoothDevicesDiscoveryScreen extends React.Component {
     core.navigate('AccessPointsDiscovery', { device: device });
   }
 
-  renderHeader(discovered) {
+  renderHeader(discovered, btEnabled) {
     if (discovered) {
       return (
-          <View style={style.header.view.style}>
-            <Text style={style.header.text.style}>{'Select device to setup'}</Text>
-          </View>
+        <View style={style.header.view.style}>
+          <Text style={style.header.text.style}>{'Select device to setup'}</Text>
+        </View>
       )
     } else {
       return null;
@@ -128,31 +129,31 @@ export default class BluetoothDevicesDiscoveryScreen extends React.Component {
 
   renderFooter(scanning) {
     return (
-        <View style={style.footer.view.style}>
-          {scanning
-              ? this.renderSearchingIndicator()
-              : this.renderRefreshButton()
-          }
-        </View>
+      <View style={style.footer.view.style}>
+        {scanning
+          ? this.renderSearchingIndicator()
+          : this.renderRefreshButton()
+        }
+      </View>
     )
   }
 
   renderRefreshButton() {
     return (
-        <View>
-          <SquareButton style={style.refreshButton}
-                        title="Refresh"
-                        onPress={async() => await setup.startScan()} />
-        </View>
+      <View>
+        <SquareButton style={style.refreshButton}
+          title="Refresh"
+          onPress={async () => await setup.startScan()} />
+      </View>
     )
   }
 
   renderSearchingIndicator() {
     return (
-        <View>
-          <Text style={style.footer.text.style}>{'Searching for devices .....'}</Text>
-          <ActivityIndicator size="large" animating={true} />
-        </View>
+      <View>
+        <Text style={style.footer.text.style}>{'Searching for devices .....'}</Text>
+        <ActivityIndicator size="large" animating={true} />
+      </View>
     )
   }
 
@@ -160,18 +161,27 @@ export default class BluetoothDevicesDiscoveryScreen extends React.Component {
     let scanning = setup.state.scanningForDevices;
     let devices = Array.from(setup.state.discoveredDevices.values());
     let discovered = devices.length > 0;
+    let btEnabled = setup.state.btEnabled;
+
+    if (!btEnabled) {
+      return (
+        <View style={style.header.view.style}>
+          <ErrorView message={'Make sure Bluetooth adapter is Enabled on your device'} />
+        </View>
+      )
+    }
 
     return (
-        <SafeAreaView style={style.safeArea.style}>
-          <FlatList
-              contentContainerStyle={{flexGrow: 1, justifyContent: 'flex-end'}}
-              data={devices}
-              renderItem={({ item, index }) => this.renderDevice(item, index)}
-              ListHeaderComponent={() => this.renderHeader(discovered)}
-              ListFooterComponent={() => this.renderFooter(scanning)}
-              keyExtractor={item => item.id}
-          />
-        </SafeAreaView>
+      <SafeAreaView style={style.safeArea.style}>
+        <FlatList
+          contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-end' }}
+          data={devices}
+          renderItem={({ item, index }) => this.renderDevice(item, index)}
+          ListHeaderComponent={() => this.renderHeader(discovered)}
+          ListFooterComponent={() => this.renderFooter(scanning)}
+          keyExtractor={item => item.id}
+        />
+      </SafeAreaView>
     );
   }
 }

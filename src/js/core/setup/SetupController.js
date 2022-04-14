@@ -47,9 +47,9 @@ export default class SetupController {
       console.log(`Initial BT Adapter state is ${btState}`);
       this.state.btEnabled = btState == 'PoweredOn';
 
-      BluetoothStateManager.onStateChange((newBtState) => { 
+      BluetoothStateManager.onStateChange((newBtState) => {
         console.log(`New BT Adapter state is ${newBtState}`);
-        this.state.btEnabled = newBtState == 'PoweredOn' 
+        this.state.btEnabled = newBtState == 'PoweredOn'
       }, true);
 
 
@@ -65,7 +65,7 @@ export default class SetupController {
       return [];
     }
     if (Platform.Version >= 31) {
-      return [PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN, PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT];
+      return [PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN, PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT, PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION];
     }
     if (Platform.Version >= 29) {
       return [PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION];

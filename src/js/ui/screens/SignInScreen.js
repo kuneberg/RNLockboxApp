@@ -98,43 +98,6 @@ export default class SignInScreen extends React.Component {
     }
 
     render() {
-        // return <SafeAreaView tyle={style.safeArea.style}>
-        //     <KeyboardAvoidingView style={style.keyboard.style} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={100}>
-        //         <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between', flexDirection: 'column' }}>
-        //             <View style={{ flex: 1, paddingLeft: 20, paddingRight: 20, }}>
-        //                 {core.state.authErrorMsg && <ErrorView message={core.state.authErrorMsg} />}
-        //                 <FormTextInput
-        //                     style={style.password.style}
-        //                     placeholder={"Email"}
-        //                     value={this.state.email}
-        //                     autoCapitalize='none' autoComplete='off'
-        //                     onChangeText={(email) => this.setState({ ...this.state, email })} />
-        //                 <FormTextInput
-        //                     style={style.password.style}
-        //                     placeholder={"Password"}
-        //                     value={this.state.password}
-        //                     autoCapitalize='none' autoComplete='off'
-        //                     onChangeText={(password) => this.setState({ ...this.state, password })} />
-        //                 <SquareButton
-        //                     title="Sign In"
-        //                     onPress={() => this.onSignIn()}
-        //                     color={Styles.theme.button.color}
-        //                 />
-        //                 <ClearTextButton
-        //                     title="Sign Up"
-        //                     onPress={() => this.onSignUp()}
-        //                 />
-        //             </View>
-        //         </ScrollView>
-        //     </KeyboardAvoidingView>
-        //     {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
-        //     {/* <KeyboardAvoidingView style={style.keyboard.style} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={100}>
-        //         <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between', flexDirection: 'column' }}>
-                    
-        //         </ScrollView>
-        //     </KeyboardAvoidingView> */}
-        //     {/* </TouchableWithoutFeedback> */}
-        // </SafeAreaView>
 
         return (
             <SafeAreaView style={style.safeArea.style}>

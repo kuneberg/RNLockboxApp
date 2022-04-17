@@ -443,6 +443,40 @@ export default class ApiClient {
         }
     }
 
+    async closeLock() {
+        const headers = {
+            'Authorization': this.authToken
+        }
+        try {
+            let response = await this.api.post(`/lock/lock`, {}, { headers })
+            let { data } = response
+            return data.data
+        } catch (error) {
+            if (!error.response) {
+                throw new ApiUnavailableError(error);
+            } else {
+                console.log(error);
+            }
+        }
+    }
+
+    async openLock() {
+        const headers = {
+            'Authorization': this.authToken
+        }
+        try {
+            let response = await this.api.post(`/lock/unlock`, {}, { headers })
+            let { data } = response
+            return data.data
+        } catch (error) {
+            if (!error.response) {
+                throw new ApiUnavailableError(error);
+            } else {
+                console.log(error);
+            }
+        }
+    }
+
     log(message) {
         console.log('API: ' + message)
     }

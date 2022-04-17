@@ -42,6 +42,10 @@ export default class State {
 
     @observable _accounts = null
 
+    @observable _supportsLock = false;
+
+    @observable _lockOpened = false;
+
 
     constructor() {
         makeAutoObservable(this)
@@ -169,5 +173,21 @@ export default class State {
 
     set mediaItemUploadInProgress(value) {
         this._mediaItemUploadInProgress = value
+    }
+
+    get supportsLock() {
+        return this._supportsLock
+    }
+
+    set supportsLock(value) {
+        this._supportsLock = value
+    }
+
+    get lockOpened() {
+        return this._lockOpened
+    }
+
+    set lockOpened(value) {
+        this._lockOpened = value
     }
 }

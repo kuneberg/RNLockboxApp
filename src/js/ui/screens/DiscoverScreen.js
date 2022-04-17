@@ -115,7 +115,9 @@ export default class DiscoverScreen extends React.Component {
     // }
 
     onHostSelected(host) {
-        core.setHost(host.address)
+        console.log('host selected:')
+        console.log(host)
+        core.setHost(host)
         core.navigate("SignIn");
     }
 

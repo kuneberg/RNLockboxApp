@@ -124,8 +124,9 @@ export default class Core {
     }
 
     async setHost(host) {
-        this.state.lockboxHost = host;
-        this.api.setHost(host);
+        this.state.lockboxHost = host.address;
+        this.state.supportsLock = host.info.supportsLock
+        this.api.setHost(host.address);
     }
 
     async signIn(email, password) {
@@ -504,11 +505,14 @@ export default class Core {
 
                 let prevHosts = toJS(this.state.lockboxHosts).filter(h => h.address != address)
 
+                console.log('Host info:')
+                console.log(info)
                 this.state.lockboxHosts = [
                     ...prevHosts,
                     {
                         name: info.data.name,
-                        address
+                        address,
+                        info: info.data
                     },
                 ]
                 break
@@ -532,6 +536,16 @@ export default class Core {
             this.state.accounts = await this.api.loadAccounts();
         } catch (e) {
             this.navigateReset('ApiUnavailable')
+        }
+    }
+
+    async toggleLock() {
+        if (this.state.lockOpened) {
+            await this.api.closeLock()
+            this.state.lockOpened = false
+        } else {
+            await this.api.openLock()
+            this.state.lockOpened = true
         }
     }
 

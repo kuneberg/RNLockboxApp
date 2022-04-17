@@ -8,6 +8,8 @@ import ResetPasswordScreen from './ResetPasswordScreen';
 import MemoriesRootScreen from './MemoriesRootScreen';
 import TagsRootScreen from './TagsRootScreen';
 import SettingsRootScreen from './SettingsRootScreen';
+import core from '../../core';
+import LockControlScreen from './LockControlScreen';
 
 const Tab = createBottomTabNavigator()
 
@@ -36,6 +38,9 @@ export default class HomeScreen extends React.Component {
                 } else if (route.name === 'Tags') {
                     iconName = 'tags';
                     return <Icon name={iconName} size={size} color={color} />
+                } else if (route.name === 'LockControl') {
+                    iconName = 'lock';
+                    return <Icon name={iconName} size={size} color={color} />
                 }
 
             },
@@ -43,9 +48,11 @@ export default class HomeScreen extends React.Component {
     }
 
     render() {
+        let supportsLock = core.state.supportsLock
         return <Tab.Navigator screenOptions={({ route }) => this.screenOptions(route)} tabBarOptions={style.tabBar.options}>
             <Tab.Screen name="Memories" component={MemoriesRootScreen} options={{ tabBarLabel: 'Memories', headerShown: false }} />
             <Tab.Screen name="Tags" component={TagsRootScreen} options={{ tabBarLabel: 'Tags', headerShown: false }} />
+            {supportsLock && <Tab.Screen name="LockControl" component={LockControlScreen} options={{ tabBarLabel: 'Lock Control', headerShown: false }} />}
             <Tab.Screen name="Settings" component={SettingsRootScreen} options={{ tabBarLabel: 'Settings', headerShown: false }} />
         </Tab.Navigator>
     }

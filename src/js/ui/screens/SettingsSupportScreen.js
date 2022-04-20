@@ -1,12 +1,7 @@
 import * as React from 'react';
-import { SafeAreaView, ScrollView, Text, Button, Image, Dimensions, View, Linking } from 'react-native';
+import { SafeAreaView, ScrollView, Text, View, Linking } from 'react-native';
 import styles from '../styles';
-import core from '../../core';
 import { observer } from 'mobx-react';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import FormTextInput from '../components/FormTextImput';
-import SquareButton from '../components/SquareButton';
-import { HeaderBackButton } from '@react-navigation/native-stack';
 
 const style = {
     safeArea: {
@@ -37,6 +32,12 @@ const style = {
             marginBottom: 10
         }
     },
+    link: {
+        style: {
+            color: styles.primaryColor,
+            marginBottom: 10
+        }
+    },
     button: {
         style: {
             backgroundColor: styles.primaryColor
@@ -62,21 +63,14 @@ export default class SettingsSupportScreen extends React.Component {
         })
     }
 
-    async openSupport() {
-        Linking.openURL("http://google.com")
-    }
-
     render() {
         return <SafeAreaView style={style.safeArea.style}>
             <ScrollView>
                 <View style={{padding: 20}}>
-                <Text style={style.text.style}>Support</Text>
-                <Text style={style.text.style}>Blah blah</Text>
-                <SquareButton
-                    title="Open support page"
-                    onPress={() => this.openSupport()}
-                    style={style.button.style}
-                />
+                    <Text style={style.text.style}>For support, please visit our website at</Text>
+                    <Text style={style.link.style} onPress={() => Linking.openURL("https://www.memorieslockbox.com/support")}>https://www.memorieslockbox.com/support</Text>
+                    <Text style={style.text.style}>or email us at</Text>
+                    <Text style={style.link.style} onPress={() => Linking.openURL("mailto: support@memorieslockbox.com")}>support@memorieslockbox.com</Text>
                 </View>
             </ScrollView>
         </SafeAreaView>

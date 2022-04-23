@@ -118,7 +118,7 @@ export default class SignInScreen extends React.Component {
                       autoCapitalize='none' autoComplete='off'
                       onChangeText={(v) => this.setState({ ...this.state, password: v })} />
                     <SquareButton
-                      title="Sign In"
+                      title="Log In"
                       onPress={() => this.onSignIn()}
                       color={Styles.theme.button.color}
                     />

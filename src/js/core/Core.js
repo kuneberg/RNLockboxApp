@@ -539,14 +539,25 @@ export default class Core {
         }
     }
 
+    async initLockState() {
+        this.state.lockInProgress = true
+        let newLockState = await this.api.getLockState()
+        this.state.lockOpened = !newLockState.locked
+        this.state.lockInProgress = false
+    }
+
     async toggleLock() {
-        if (this.state.lockOpened) {
-            await this.api.closeLock()
-            this.state.lockOpened = false
-        } else {
+        this.state.lockInProgress = true
+        let currentLockState = await this.api.getLockState()
+        if (currentLockState.locked) {
             await this.api.openLock()
-            this.state.lockOpened = true
+        } else {
+            await this.api.closeLock()
         }
+
+        let newLockState = await this.api.getLockState()
+        this.state.lockOpened = !newLockState.locked
+        this.state.lockInProgress = false
     }
 
     // discover() {

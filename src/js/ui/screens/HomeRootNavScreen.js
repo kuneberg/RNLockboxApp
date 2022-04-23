@@ -38,7 +38,7 @@ export default class HomeRootNavScreen extends React.Component {
             <Stack.Screen name="BluetoothDevicesDiscovery" component={BluetoothDevicesDiscoveryScreen} options={{ title: 'Lockbox Setup' }}/>
             <Stack.Screen name="AccessPointsDiscovery" component={AccessPointsDiscoveryScreen} options={{ title: 'Lockbox Setup' }}/>
             <Stack.Screen name="AccessPointConnection" component={AccessPointConnectionScreen} options={{ title: 'Lockbox Setup' }}/>
-            <Stack.Screen name="SignIn" component={SignInScreen} options={{ title: 'Sign In' }}/>
+            <Stack.Screen name="SignIn" component={SignInScreen} options={{ title: 'Log In' }}/>
             <Stack.Screen name="SignUp" component={SignUpScreen} options={{ title: 'Sign Up' }}/>
             <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} options={{...styles.theme.stackHeaderOptions, title: 'Reset Password' }}/>
 

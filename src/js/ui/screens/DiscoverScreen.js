@@ -227,10 +227,10 @@ export default class DiscoverScreen extends React.Component {
 
         return (
             <View style={style.header.view.style}>
-                <Text style={style.header.text.style}>{'Select device'}</Text>
+                <Text style={style.header.text.style}>{'Lockbox Discovery'}</Text>
                 <View style={style.header.sub.view.style}>
-                    <Text style={style.header.sub.text.style}>{'or'}</Text>
-                    <ClearTextButton title="add new one" onPress={() => this.onDiscoverBluetoothDevicesPress()}></ClearTextButton>
+                    <Text style={style.header.sub.text.style}>{'Select a Lockbox or'}</Text>
+                    <ClearTextButton title="Add a New Lockbox" onPress={() => this.onDiscoverBluetoothDevicesPress()}></ClearTextButton>
                 </View>
                 {/* <Tags tags={tags} editable={false} onRemove={(tag) => console.log(`tag pressed: ${tag.name}`)}/> */}
             </View>

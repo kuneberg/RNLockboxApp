@@ -78,8 +78,11 @@ export default class LockControlScreen extends React.Component {
   }
 
   onLockPressed() {
-    console.log('lock pressed')
-    core.toggleLock()
+    let inProgress = core.state.lockInProgress
+    if (!inProgress) {
+      console.log('lock pressed')
+      core.toggleLock()
+    }
   }
 
   render() {

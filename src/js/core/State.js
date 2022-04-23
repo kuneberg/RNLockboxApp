@@ -46,6 +46,8 @@ export default class State {
 
     @observable _lockOpened = false;
 
+    @observable _lockInProgress = true;
+
 
     constructor() {
         makeAutoObservable(this)
@@ -190,4 +192,14 @@ export default class State {
     set lockOpened(value) {
         this._lockOpened = value
     }
+
+    get lockInProgress() {
+        return this._lockInProgress
+    }
+
+    set lockInProgress(value) {
+        this._lockInProgress = value
+    }
+
+    
 }

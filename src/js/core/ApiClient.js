@@ -477,6 +477,23 @@ export default class ApiClient {
         }
     }
 
+    async getLockState() {
+        const headers = {
+            'Authorization': this.authToken
+        }
+        try {
+            let response = await this.api.get(`/lock/state`, { headers })
+            let { data } = response
+            return data.data
+        } catch (error) {
+            if (!error.response) {
+                throw new ApiUnavailableError(error);
+            } else {
+                console.log(error);
+            }
+        }
+    }
+
     log(message) {
         console.log('API: ' + message)
     }

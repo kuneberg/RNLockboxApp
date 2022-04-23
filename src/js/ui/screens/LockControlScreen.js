@@ -1,13 +1,8 @@
 import * as React from 'react';
-import { SafeAreaView, Text, View, Platform, KeyboardAvoidingView, ScrollView, Pressable } from "react-native";
+import { SafeAreaView, Text, View, Platform, KeyboardAvoidingView, ScrollView, Pressable, ActivityIndicator } from "react-native";
 import Styles from '../styles';
 import core from '../../core';
 import { observer } from 'mobx-react';
-import FormTextInput from '../components/FormTextImput';
-import SquareButton from '../components/SquareButton';
-import ErrorView from '../components/ErrorView';
-import ClearTextButton from "../components/ClearTextButton";
-import ClearButton from '../components/ClearButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 
@@ -29,7 +24,8 @@ const style = {
       paddingRight: 20,
       paddingBottom: 60,
       justifyContent: 'flex-end',
-      alignItems: 'center'
+      alignItems: 'center',
+      // backgroundColor: "#ffffff"
     }
   },
   text: {
@@ -46,52 +42,21 @@ const style = {
       padding: 30,
       borderRadius: 94,
       minWidth: 198,
+      minHeight: 198,
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
+    },
+    pressed: {
+      shadowOffset: {
+        width: 0,
+        height: 0
+      },
+      shadowOpacity: 0.8,
+      shadowRadius: 15
     },
     icon: {
       size: 128,
       color: '#fff'
-    }
-  },
-
-
-
-
-
-  header: {
-    view: {
-      style: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingBottom: 30,
-      }
-    },
-
-  },
-  accessPoint: {
-    row: {
-      style: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 20,
-        paddingBottom: 10
-      }
-    },
-    text: {
-      style: {
-        color: Styles.textColor,
-        fontSize: 18
-      }
-    }
-  },
-  password: {
-    style: {
-      color: Styles.textColor
-    },
-    props: {
-      placeholderTextColor: "#c3c3c3"
     }
   }
 };
@@ -109,6 +74,7 @@ export default class LockControlScreen extends React.Component {
   }
 
   componentDidMount() {
+    core.initLockState()
   }
 
   onLockPressed() {
@@ -117,6 +83,7 @@ export default class LockControlScreen extends React.Component {
   }
 
   render() {
+    let inProgress = core.state.lockInProgress
     let opened = core.state.lockOpened
     let icon = opened ? 'unlock' : 'lock'
     return (
@@ -125,8 +92,9 @@ export default class LockControlScreen extends React.Component {
           <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between', flexDirection: 'column' }}>
             <View style={style.view.style}>
               <Text style={style.text.style}>Press to toggle lock</Text>
-              <Pressable style={style.button.style} onPress={() => this.onLockPressed()}>
-                <Icon name={icon} size={style.button.icon.size} color={style.button.icon.color} />
+              <Pressable style={[style.button.style, !opened && style.button.pressed]} onPress={() => this.onLockPressed()}>
+                {!inProgress && <Icon name={icon} size={style.button.icon.size} color={style.button.icon.color} />}
+                {inProgress && <ActivityIndicator size="large" color={'#ffffff'}/>}
               </Pressable>
             </View>
           </ScrollView>

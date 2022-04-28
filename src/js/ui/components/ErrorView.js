@@ -6,7 +6,7 @@ import Styles from '../styles';
 const style = {
     view: {
         style: {
-            backgroundColor: Styles.errrorBgColor,
+            backgroundColor: Styles.errorBgColor,
             borderRadius: 10,
             padding: 10,
             marginBottom: 20,

@@ -7,6 +7,7 @@ import Zeroconf from 'react-native-zeroconf'
 import moment from 'moment';
 import {toJS} from 'mobx';
 import ApiUnavailableError from "./ApiUnavailableError";
+import core from "./index";
 
 // const
 
@@ -558,6 +559,10 @@ export default class Core {
         let newLockState = await this.api.getLockState()
         this.state.lockOpened = !newLockState.locked
         this.state.lockInProgress = false
+    }
+
+    goError(errorMsg) {
+        this.navigate("Error", { errorMsg: errorMsg })
     }
 
     // discover() {

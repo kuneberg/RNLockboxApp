@@ -118,25 +118,29 @@ export default class MemoryEditor extends React.Component {
 
     async onAddMediaItemsPress() {
         console.log(`opening image/video picker...`)
-        let mediaItems = await ImageCropPicker.openPicker({
-            mediaType: 'any',
-            width: 1000,
-            height: 1000,
-            multiple: true,
-            includeBase64: true,
-            forceJpg: true
-        })
-
-        let items = [];
-        mediaItems.forEach((mediaItem) => {
-            items.push({
-                mediaType: mediaItem.mime,
-                videoPath: mediaItem.path,
-                imageData: mediaItem.data
+        try {
+            let mediaItems = await ImageCropPicker.openPicker({
+                mediaType: 'any',
+                width: 1000,
+                height: 1000,
+                multiple: true,
+                includeBase64: true,
+                forceJpg: true
             })
-        });
+            let items = [];
+            mediaItems.forEach((mediaItem) => {
+                items.push({
+                    mediaType: mediaItem.mime,
+                    videoPath: mediaItem.path,
+                    imageData: mediaItem.data
+                })
+            });
 
-        await this.props.onAddMediaItems(items)
+            await this.props.onAddMediaItems(items)
+        } catch (error) {
+            console.log(JSON.stringify(error))
+            this.props.onError(error.message)
+        }
     }
 
     onDeletePress() {

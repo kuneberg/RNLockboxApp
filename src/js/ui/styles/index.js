@@ -31,7 +31,7 @@ export default class Styles {
         return 'rgba(41, 44, 47, 0.9)'
     }
 
-    static get errrorBgColor() {
+    static get errorBgColor() {
         return 'rgba(232, 28, 79, 1)'
     }
 

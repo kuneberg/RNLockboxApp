@@ -20,6 +20,7 @@ import DiscoverScreen from './DiscoverScreen';
 import BluetoothDevicesDiscoveryScreen from "./BluetoothDevicesDiscoveryScreen";
 import AccessPointsDiscoveryScreen from "./AccessPointsDiscoveryScreen";
 import AccessPointConnectionScreen from "./AccessPointConnectionScreen";
+import ErrorScreen from "./ErrorScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -31,8 +32,7 @@ export default class HomeRootNavScreen extends React.Component {
 
     render() {
         let initialRouteName = core.state.authenticated ? "Home" : "Discover"
-        // initialRouteName = 'AccessPointConnection'
-        // initialRouteName = 'AccessPointsDiscovery'
+
         return <Stack.Navigator initialRouteName={initialRouteName}>
             <Stack.Screen name="Discover" component={DiscoverScreen} options={{headerShown: false}}/>
             <Stack.Screen name="BluetoothDevicesDiscovery" component={BluetoothDevicesDiscoveryScreen} options={{ title: 'Lockbox Setup' }}/>
@@ -53,6 +53,7 @@ export default class HomeRootNavScreen extends React.Component {
             <Stack.Screen name="TagEdit" component={TagEditScreen} options={{ headerShown: true, title: 'Edit Tag' }} />
             <Stack.Screen name="TagShare" component={TagShareScreen} options={{ headerShown: true, title: 'Share Tag' }} />
             <Stack.Screen name="ApiUnavailable" component={ApiUnavailableScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Error" component={ErrorScreen} options={{ headerShown: false, mode: 'transparentModal', headerMode: 'none', cardStyle:{ backgroundColor:"transparent", opacity:0} }} />
         </Stack.Navigator>
     }
 }

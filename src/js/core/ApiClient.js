@@ -287,7 +287,8 @@ export default class ApiClient {
         try {
             let response = await this.api.get(`/tags`, { headers })
             let { data } = response
-            return data.data
+            console.log(data)
+            return data.data || []
         } catch (error) {
             if (!error.response) {
                 throw new ApiUnavailableError(error);

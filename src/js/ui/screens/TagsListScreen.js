@@ -102,7 +102,7 @@ export default class TagsListScreen extends React.Component {
 
     render() {
         let tags = core.state.tags
-        if (!tags) {
+        if (tags == null) {
             return (<LoadingView></LoadingView>)
         }
 

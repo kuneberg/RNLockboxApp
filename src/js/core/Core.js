@@ -228,6 +228,8 @@ export default class Core {
 
     async _loadTags() {
         this.state.tags = await this.api.loadTags();
+        console.log('Tags loaded')
+        console.log(this.state.tags)
     }
 
     async loadTagsIfNeeded() {

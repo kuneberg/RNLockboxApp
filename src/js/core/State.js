@@ -27,13 +27,13 @@ export default class State {
        //      name: 'Alex\'s Lockbox',
        //      address: '10.0.2.2'
         //},
-        {
-           name: 'Maks\'s Lockbox',
-           address: '192.168.1.24',
-           info: {
-            supportsLock: false
-           }
-        }
+        //{
+        //   name: 'Maks\'s Lockbox',
+        //   address: '192.168.1.24',
+        //   info: {
+        //    supportsLock: false
+        //   }
+        //}
     ]
 
     @observable _discoveryStarted = false
@@ -204,5 +204,5 @@ export default class State {
         this._lockInProgress = value
     }
 
-    
+
 }

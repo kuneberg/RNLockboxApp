@@ -85,10 +85,13 @@ export default class Core {
         this.zeroconf.on('remove', (s) => {
             console.log('[discovery] removed: ' + s)
             this._state.lockboxHosts = [
-                // {
-                //     name: 'Alex\'s Lockbox',
-                //     address: '192.168.1.3'
-                // },
+                {
+                    name: 'Cloud version (Beta)',
+                    address: '44.214.216.23',
+                    info: {
+                        supportsLock: false
+                     }
+                },
                 // {
                 //     name: 'Maks\'s Lockbox',
                 //     address: '192.168.1.7'
@@ -125,6 +128,7 @@ export default class Core {
     }
 
     async setHost(host) {
+        console.log('host: ' + host.address)
         this.state.lockboxHost = host.address;
         this.state.supportsLock = host.info.supportsLock
         this.api.setHost(host.address);

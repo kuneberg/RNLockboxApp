@@ -23,10 +23,13 @@ export default class State {
     @observable _tags = null
 
     @observable _lockboxHosts = [
-       //  {
-       //      name: 'Alex\'s Lockbox',
-       //      address: '10.0.2.2'
-        //},
+        {
+            name: 'Cloud version (Beta)',
+            address: '44.214.216.23',
+            info: {
+                   supportsLock: false
+                }
+        },
         //{
         //   name: 'Maks\'s Lockbox',
         //   address: '192.168.1.24',

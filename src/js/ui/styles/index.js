@@ -42,11 +42,5 @@ export default class Styles {
 
     static get theme() {
         return Dark;
-        // const colorScheme = Appearance.getColorScheme();
-        // if (colorScheme === 'dark') {
-        //     return Dark;
-        // } else {
-        //     return Light;
-        // }
     }
 }

@@ -29,6 +29,7 @@ export default class ApiClient {
     }
 
     setHost(host) {
+        this.log('setting host: ' + host)
         this.baseURL = `http://${host}:${Port}`
         this.api = axios.create({
             baseURL: this.baseURL,
@@ -61,12 +62,14 @@ export default class ApiClient {
 
     async signup(email, password) {
         try {
+            this.log('sign up to: ' + this.api.baseURL)
             this.log('signup ' + email + ' / ' + password)
             let response = await this.api.post('/auth/register', {
                 email: email,
                 password: password,
             })
             let { data } = response
+            this.log('signup response: ' + response)
             if (!data.success) {
                 this.log('signup failed: ' + data.message)
                 return data
@@ -74,6 +77,7 @@ export default class ApiClient {
             this.authToken = data.data.token
             return data
         } catch (error) {
+            this.log('signup error: ' + error)
             if (!error.response) {
                 throw new ApiUnavailableError(error);
             } else {

@@ -1,3 +1,5 @@
 import SetupController from "./SetupController";
 
-export default setup = new SetupController();
+const setup = new SetupController();
+
+export default setup;

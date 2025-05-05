@@ -1,12 +1,13 @@
-import * as React from 'react';
-import { View, Text, Button, Image, Dimensions, SafeAreaView, RefreshControl } from 'react-native';
-import Styles from '../styles';
-import core from '../../core';
 import { observer } from 'mobx-react';
+import * as React from 'react';
+import { SafeAreaView, Text, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
+import core from '../../core';
 import LoadingView from '../components/LoadingView';
 import TagsListItem from '../components/TagsListItem';
-import ActionButton from 'react-native-action-button';
+import Styles from '../styles';
+// import ActionButton from 'react-native-action-button';
+import FloatingActionButton from '../components/FloatingActionButton';
 
 
 
@@ -115,10 +116,7 @@ export default class TagsListScreen extends React.Component {
                     ListFooterComponent={() => <TagsListFooter/>}
                     keyExtractor={item => item.id}
                 />
-                <ActionButton
-                    buttonColor={Styles.primaryColor}
-                    onPress={() => this.onAddPress()}
-                />
+                <FloatingActionButton onPress={() => this.onAddPress()} icon="add-outline"/>
             </SafeAreaView>
         );
     }

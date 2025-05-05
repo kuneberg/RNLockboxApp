@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import Styles from '../styles';
+import { Pressable } from 'react-native';
 
 export default class ClearIconButton extends React.Component {
 
@@ -10,11 +10,11 @@ export default class ClearIconButton extends React.Component {
         let icon = this.props.icon
         let onPress = this.props.onPress
         return (
-            <TouchableOpacity
+            <Pressable
                 style={{ padding: 5 }}
                 onPress={() => onPress()}>
                 <Ionicon name={icon} size={24} color={Styles.primaryColor} />
-            </TouchableOpacity>
+            </Pressable>
         )
     }
 

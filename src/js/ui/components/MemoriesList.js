@@ -1,9 +1,6 @@
 import * as React from 'react';
-import { View, Text, Button, Image, Dimensions, RefreshControl, FlatList } from 'react-native';
-import Styles from '../styles';
+import { FlatList, RefreshControl } from 'react-native';
 import core from '../../core';
-import { observer } from 'mobx-react';
-import Carousel from 'react-native-snap-carousel';
 import MemoriesListItem from './MemoriesListItem';
 
 export default class MemoriesList extends React.Component {

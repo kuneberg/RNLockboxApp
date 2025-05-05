@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Pressable, View, Text } from "react-native";
+import { Pressable, Text } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Styles from "../styles";
 
@@ -39,6 +39,7 @@ const style = {
     }
   },
 }
+
 export default function DeviceListItem({ device, onPress, first }) {
   let viewStyle = first ? { ...style.view.style, ...style.view.first.style } : style.view.style
   let pressedStyle = { ...viewStyle, ...style.view.pressed.style }

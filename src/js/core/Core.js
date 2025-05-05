@@ -1,13 +1,12 @@
+import { Buffer } from 'buffer';
 import * as React from 'react';
-import State from "./State";
 import ApiClient from './ApiClient';
-import {Buffer} from 'buffer';
+import State from "./State";
 
-import Zeroconf from 'react-native-zeroconf'
+import { toJS } from 'mobx';
 import moment from 'moment';
-import {toJS} from 'mobx';
+import Zeroconf from 'react-native-zeroconf';
 import ApiUnavailableError from "./ApiUnavailableError";
-import core from "./index";
 
 // const
 
@@ -87,10 +86,17 @@ export default class Core {
             this._state.lockboxHosts = [
                 {
                     name: 'Cloud version (Beta)',
-                    address: '44.214.216.23',
+                    address: '192.168.68.71',
                     info: {
-                        supportsLock: false
-                     }
+                           supportsLock: false
+                        }
+                },
+                {
+                    name: 'Cloud version (AWS)',
+                    address: '16.16.186.119',
+                    info: {
+                           supportsLock: false
+                        }
                 },
                 // {
                 //     name: 'Maks\'s Lockbox',

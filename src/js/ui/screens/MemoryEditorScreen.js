@@ -1,11 +1,10 @@
+import { observer } from 'mobx-react';
 import * as React from 'react';
-import {SafeAreaView} from 'react-native';
+import { SafeAreaView } from 'react-native';
 import core from '../../core';
-import {observer} from 'mobx-react';
-import MemoryEditor from '../components/MemoryEditor';
-import LoadingView from '../components/LoadingView';
 import ClearTextButton from '../components/ClearTextButton';
-import ErrorScreen from "./ErrorScreen";
+import LoadingView from '../components/LoadingView';
+import MemoryEditor from '../components/MemoryEditor';
 
 const style = {
   safeArea: {

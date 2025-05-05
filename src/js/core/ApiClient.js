@@ -391,7 +391,7 @@ export default class ApiClient {
             totalChunks: chunks,
         }
         try {
-            let response = await this.api.post(`/files/upload`, body, {headers})
+            let response = await this.api.post(`/uploads`, body, {headers})
             let {data} = response
             if(!data.success) {
                 this.log('[createUpload]: ' + data.message)
@@ -413,7 +413,7 @@ export default class ApiClient {
         const headers = {
             'Authorization': this.authToken,
         }
-        let url = `/files/upload/${uploadId}`
+        let url = `/uploads/${uploadId}`
         let response = await this.api.get(url, {headers})
         let {data} = response
         if(!data.success) {
@@ -430,7 +430,7 @@ export default class ApiClient {
             'Authorization': this.authToken,
             'content-type': 'application/octet-stream',
         }
-        let url = `/files/upload/${uploadId}/${index}`
+        let url = `/uploads/${uploadId}/${index}`
         try {
             let response = await this.api.post(url, chunk, { headers })
             let { data } = response

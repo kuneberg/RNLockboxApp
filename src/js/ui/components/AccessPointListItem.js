@@ -1,6 +1,5 @@
 import * as React from "react";
-import { Pressable, View, Text } from "react-native";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { Pressable, Text } from "react-native";
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Styles from "../styles";
 

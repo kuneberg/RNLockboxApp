@@ -1,15 +1,13 @@
-import * as React from 'react';
-import { observer } from 'mobx-react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { observer } from 'mobx-react';
+import * as React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Styles from '../styles';
-import ResetPasswordScreen from './ResetPasswordScreen';
-import MemoriesRootScreen from './MemoriesRootScreen';
-import TagsRootScreen from './TagsRootScreen';
-import SettingsRootScreen from './SettingsRootScreen';
 import core from '../../core';
+import Styles from '../styles';
 import LockControlScreen from './LockControlScreen';
+import MemoriesRootScreen from './MemoriesRootScreen';
+import SettingsRootScreen from './SettingsRootScreen';
+import TagsRootScreen from './TagsRootScreen';
 
 const Tab = createBottomTabNavigator()
 

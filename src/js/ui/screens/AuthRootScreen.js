@@ -1,17 +1,13 @@
 import * as React from 'react';
-import { View, Text, Button, Image, Dimensions } from 'react-native';
 import styles from '../styles';
-import core from '../../core';
 import { observer } from 'mobx-react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignInScreen from './SignInScreen';
 import SignUpScreen from './SignUpScreen';
 import ResetPasswordScreen from './ResetPasswordScreen';
 import DiscoverScreen from './DiscoverScreen';
-import ApiUnavailableScreen from "./ApiUnavailableScreen";
 
 const Stack = createNativeStackNavigator();
-
 
 @observer
 export default class AuthRootScreen extends React.Component {

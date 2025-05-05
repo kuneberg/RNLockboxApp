@@ -1,3 +1,4 @@
 import Core from "./Core";
 
-export default core = new Core();
+const core = new Core();
+export default core

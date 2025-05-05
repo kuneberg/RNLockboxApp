@@ -1,12 +1,11 @@
-import * as React from 'react';
-import { View, Text, Button, FlatList, RefreshControl, SafeAreaView, SectionList } from 'react-native';
-import Styles from '../styles';
-import core from '../../core';
 import { observer } from 'mobx-react';
+import moment from 'moment';
+import * as React from 'react';
+import { RefreshControl, SafeAreaView, SectionList, Text, View } from 'react-native';
+import core from '../../core';
+import FloatingActionButton from '../components/FloatingActionButton';
 import MemoriesListItem from '../components/MemoriesListItem';
-import RoundIconButton from '../components/RoundIconButton';
-import moment from 'moment'
-import ActionButton from 'react-native-action-button';
+import Styles from '../styles';
 
 const style = {
     safeArea: {
@@ -190,10 +189,7 @@ export default class MemoriesListScreen extends React.Component {
                     stickySectionHeadersEnabled={true}
                 >
                 </SectionList>
-                <ActionButton
-                    buttonColor={Styles.primaryColor}
-                    onPress={() => this.onAddPress()}
-                />
+                <FloatingActionButton onPress={() => this.onAddPress()} icon="add-outline"/>
             </SafeAreaView>
         );
     }

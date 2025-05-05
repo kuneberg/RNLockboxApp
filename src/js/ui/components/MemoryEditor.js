@@ -1,14 +1,13 @@
+import { observer } from 'mobx-react';
+import moment from 'moment';
 import * as React from 'react';
-import { View, Text, ScrollView, ImageBackground, ActivityIndicator } from 'react-native';
-import Styles from '../styles';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { ActivityIndicator, ImageBackground, Pressable, ScrollView, Text, View } from 'react-native';
 import ImageCropPicker from 'react-native-image-crop-picker';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import moment from 'moment'
+import Icon from 'react-native-vector-icons/FontAwesome';
+import core from '../../core';
+import Styles from '../styles';
 import FormTextInput from './FormTextImput';
 import IconButton from './IconButton';
-import { observer } from 'mobx-react';
-import core from '../../core';
 
 import * as Progress from 'react-native-progress';
 
@@ -152,7 +151,7 @@ export default class MemoryEditor extends React.Component {
     }
 
     renderLoadingItemThumb(carouselItem, itemHeight, mediaItem) {
-        return <View style={{
+        return <View key={`loading-item-thumb-${carouselItem.index}`} style={{
             borderColor: 'rgb(115, 115, 118)',
             borderWidth: 1,
             borderRadius: 12,
@@ -250,7 +249,7 @@ export default class MemoryEditor extends React.Component {
     }
 
     renderAddButton() {
-        return <TouchableOpacity key='add-image' onPress={() => this.onAddMediaItemsPress()}>
+        return <Pressable key='add-image' onPress={() => this.onAddMediaItemsPress()}>
             <View style={{
                 borderColor: 'rgb(115, 115, 118)',
                 borderWidth: 1,
@@ -264,7 +263,7 @@ export default class MemoryEditor extends React.Component {
             }}>
                 <Icon name={'plus'} size={36} color={'rgb(115, 115, 118)'} />
             </View>
-        </TouchableOpacity>
+        </Pressable>
     }
 
     renderItems(memoryItem) {

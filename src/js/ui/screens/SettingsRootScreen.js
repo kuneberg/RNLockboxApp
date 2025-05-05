@@ -1,12 +1,9 @@
-import * as React from 'react';
-import { View, Text, Button, Image, Dimensions, SafeAreaView, FlatList } from 'react-native';
-import { observer } from 'mobx-react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { observer } from 'mobx-react';
+import * as React from 'react';
 import styles from '../styles';
-import core from '../../core';
-import ResetPasswordScreen from './ResetPasswordScreen';
-import SettingsHomeScreen from './SettingsHomeScreen';
 import SettingsChangePasswordScreen from './SettingsChangePasswordScreen';
+import SettingsHomeScreen from './SettingsHomeScreen';
 import SettingsResetLockboxScreen from './SettingsResetLockboxScreen';
 import SettingsSupportScreen from './SettingsSupportScreen';
 

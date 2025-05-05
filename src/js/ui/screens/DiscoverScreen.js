@@ -4,9 +4,9 @@ import Styles from '../styles';
 import core from '../../core';
 import { observer } from 'mobx-react';
 import HostListItem from '../components/HostListItem';
-import ActionButton from "react-native-action-button";
+// import ActionButton from "react-native-action-button";
 import ClearTextButton from '../components/ClearTextButton';
-import Tags from '../components/Tags';
+// import Tags from '../components/Tags';
 
 const style = {
     safeArea: {
@@ -262,8 +262,6 @@ export default class DiscoverScreen extends React.Component {
         if (!lockboxHosts) {
             return (<LoadingView></LoadingView>)
         }
-
-        
 
         return (
             <SafeAreaView style={style.safeArea.style}>

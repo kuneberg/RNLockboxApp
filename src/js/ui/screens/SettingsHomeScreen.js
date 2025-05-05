@@ -1,13 +1,10 @@
-import * as React from 'react';
-import { View, Text, Button, Image, Dimensions, SafeAreaView, FlatList } from 'react-native';
 import { observer } from 'mobx-react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import styles from '../styles';
-import core from '../../core';
-import ResetPasswordScreen from './ResetPasswordScreen';
+import * as React from 'react';
+import { SafeAreaView, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import Separator from '../components/Separator';
+import core from '../../core';
 import MenuButton from '../components/MenuButton';
+import styles from '../styles';
 
 
 const style = {

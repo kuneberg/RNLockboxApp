@@ -61,7 +61,6 @@ const style = {
   }
 };
 
-
 @observer
 export default class LockControlScreen extends React.Component {
 

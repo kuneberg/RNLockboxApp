@@ -1,8 +1,8 @@
 import {
-    StyleSheet
-} from 'react-native';
-import Utils from './Utils';
+    DefaultTheme,
+} from '@react-navigation/native';
 import Common from './Common';
+import Utils from './Utils';
 
 const bgColor = "rgb(30,32,34)";
 const headerBgColor = "rgb(41, 44, 47)";
@@ -11,7 +11,7 @@ const primaryColor = "rgb(57, 133, 247)";
 const inactiveColor = 'rgb(115, 115, 118)';
 const borderColor = 'rgb(65, 65, 65)';
 
-export default Dark = Utils.mergeStyles(Common, {
+const Dark = Utils.mergeStyles(Common, {
     root: {
         backgroundColor: bgColor
     },
@@ -32,6 +32,7 @@ export default Dark = Utils.mergeStyles(Common, {
         headerTintColor: primaryColor
     },
     navigationTheme: {
+        ...DefaultTheme,
         dark: true,
         colors: {
             primary: primaryColor,
@@ -113,4 +114,4 @@ export default Dark = Utils.mergeStyles(Common, {
     },
 })
 
-
+export default Dark

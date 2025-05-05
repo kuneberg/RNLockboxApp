@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, Text, TouchableOpacity, View, Pressable } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import Ionicon from 'react-native-vector-icons/Ionicons';
 
 

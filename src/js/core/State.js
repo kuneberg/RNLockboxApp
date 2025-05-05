@@ -25,7 +25,14 @@ export default class State {
     @observable _lockboxHosts = [
         {
             name: 'Cloud version (Beta)',
-            address: '44.214.216.23',
+            address: '192.168.68.71',
+            info: {
+                   supportsLock: false
+                }
+        },
+        {
+            name: 'Cloud version (AWS)',
+            address: '16.16.186.119',
             info: {
                    supportsLock: false
                 }

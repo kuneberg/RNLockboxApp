@@ -4,9 +4,9 @@ import Styles from '../styles';
 import core from '../../core';
 import { observer } from 'mobx-react';
 import HostListItem from '../components/HostListItem';
-import ActionButton from "react-native-action-button";
+// import ActionButton from "react-native-action-button";
 import ClearTextButton from '../components/ClearTextButton';
-import Tags from '../components/Tags';
+// import Tags from '../components/Tags';
 
 const style = {
     safeArea: {
@@ -126,105 +126,6 @@ export default class DiscoverScreen extends React.Component {
     }
 
     renderHeader() {
-        let tags = [
-            {
-                name: "Abcdef",
-                color: '#2ecc71'
-            },
-            {
-                name: "Bbcdef",
-                color: '#3498db'
-            },
-            {
-                name: "Cbcdef",
-                color: '#9b59b6'
-            },
-            {
-                name: "Dbcdef",
-                color: '#f39c12'
-            },
-            {
-                name: "Ebcdef",
-                color: '#f1c40f'
-            },
-            {
-                name: "Fbcdef",
-                color: '#e74c3c'
-            },
-            {
-                name: "Gbcdef",
-                color: '#2ecc71'
-            },
-            {
-                name: "Hbcdef",
-                color: '#3498db'
-            },
-            {
-                name: "Abcdef",
-                color: '#2ecc71'
-            },
-            {
-                name: "Bbcdef",
-                color: '#3498db'
-            },
-            {
-                name: "Cbcdef",
-                color: '#9b59b6'
-            },
-            {
-                name: "Dbcdef",
-                color: '#f39c12'
-            },
-            {
-                name: "Ebcdef",
-                color: '#f1c40f'
-            },
-            {
-                name: "Fbcdef",
-                color: '#e74c3c'
-            },
-            {
-                name: "Gbcdef",
-                color: '#2ecc71'
-            },
-            {
-                name: "Hbcdef",
-                color: '#3498db'
-            },
-            {
-                name: "Abcdef",
-                color: '#2ecc71'
-            },
-            {
-                name: "Bbcdef",
-                color: '#3498db'
-            },
-            {
-                name: "C",
-                color: '#9b59b6'
-            },
-            {
-                name: "D",
-                color: '#f39c12'
-            },
-            {
-                name: "E",
-                color: '#f1c40f'
-            },
-            {
-                name: "F",
-                color: '#e74c3c'
-            },
-            {
-                name: "G",
-                color: '#2ecc71'
-            },
-            {
-                name: "H",
-                color: '#3498db'
-            }
-        ]
-
         return (
             <View style={style.header.view.style}>
                 <Text style={style.header.text.style}>{'Lockbox Discovery'}</Text>
@@ -262,8 +163,6 @@ export default class DiscoverScreen extends React.Component {
         if (!lockboxHosts) {
             return (<LoadingView></LoadingView>)
         }
-
-        
 
         return (
             <SafeAreaView style={style.safeArea.style}>

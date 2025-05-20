@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { View, Text, SafeAreaView, TouchableOpacity, FlatList } from 'react-native';
-import Styles from '../styles';
-import core from '../../core';
 import { observer } from 'mobx-react';
+import * as React from 'react';
+import { FlatList, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import core from '../../core';
+import Styles from '../styles';
 import LoadingView from './LoadingView';
 
 

@@ -2,7 +2,7 @@ import {
     StyleSheet
 } from 'react-native';
 
-export default Common = {
+const Common = {
     root: {
         flex: 1,
         justifyContent: 'center',
@@ -217,3 +217,5 @@ export default Common = {
         }
     }
 }
+
+export default Common

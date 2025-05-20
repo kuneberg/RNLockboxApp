@@ -1,14 +1,13 @@
-import SetupState from "./SetupState";
-import BleManager, { stopScan } from 'react-native-ble-manager'
+import { bytesToString, stringToBytes } from "convert-string";
 import {
   NativeEventEmitter,
   NativeModules,
   PermissionsAndroid,
   Platform
 } from "react-native";
-import { bytesToString, stringToBytes } from "convert-string";
-import { toJS } from 'mobx';
+import BleManager from 'react-native-ble-manager';
 import BluetoothStateManager from 'react-native-bluetooth-state-manager';
+import SetupState from "./SetupState";
 
 const SCANNER_SERVICE_UUID = "a0b40001-926d-4d61-98df-8c5c62ee53b3";
 const CONNECTOR_SERVICE_UUID = "a0b40001-927d-4d61-98df-8c5c62ee53b3";

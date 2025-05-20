@@ -1,9 +1,7 @@
 import * as React from 'react';
-import { Pressable, View, Text } from 'react-native';
+import { Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Ionicon from 'react-native-vector-icons/Ionicons';
 import Styles from '../styles';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import ClearIconButton from './ClearIconButton';
 
 const style = {

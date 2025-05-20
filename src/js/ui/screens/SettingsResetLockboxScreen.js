@@ -1,12 +1,9 @@
-import * as React from 'react';
-import { SafeAreaView, ScrollView, Text, Button, Image, Dimensions, View } from 'react-native';
-import styles from '../styles';
-import core from '../../core';
 import { observer } from 'mobx-react';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import FormTextInput from '../components/FormTextImput';
+import * as React from 'react';
+import { SafeAreaView, ScrollView, Text, View } from 'react-native';
+import core from '../../core';
 import SquareButton from '../components/SquareButton';
-import { HeaderBackButton } from '@react-navigation/native-stack';
+import styles from '../styles';
 
 const style = {
     safeArea: {

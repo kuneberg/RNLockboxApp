@@ -1,11 +1,9 @@
+import moment from 'moment';
 import * as React from 'react';
-import { View, Text, Image, Dimensions, ImageBackground, ScrollView } from 'react-native';
-import Styles from '../styles';
+import { Dimensions, Image, Pressable, ScrollView, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import core from '../../core';
-import { ServerURL } from '../../core/ApiClient';
-import moment from 'moment'
+import Styles from '../styles';
 import Tag from './Tag';
 
 const style = {
@@ -176,9 +174,9 @@ export default class MemoriesListItem extends React.Component {
             }
 
             childs.push(
-                    <TouchableOpacity key={`thumb-${memoryItem.id}-${item.fileId}`} onPress={() => this.onPress(memoryItem)}>
+                    <Pressable key={`thumb-${memoryItem.id}-${item.fileId}`} onPress={() => this.onPress(memoryItem)}>
                         {thumbnail}
-                    </TouchableOpacity>
+                    </Pressable>
                 )
         })
         return childs;
@@ -202,7 +200,7 @@ export default class MemoriesListItem extends React.Component {
         let isMine = accId == item.ownerId
 
         return <View style={style.view.style}>
-            <TouchableOpacity onPress={() => this.onPress(item)}>
+            <Pressable onPress={() => this.onPress(item)}>
                 <View style={style.date.row.style}>
                     {!isMine && <Icon style={style.date.icon.style} name={'share-alt'} size={style.date.icon.size} color={style.date.icon.color} />}
                     <Text style={style.caption.style}>{item.caption}</Text>
@@ -223,7 +221,7 @@ export default class MemoriesListItem extends React.Component {
                 <Text numberOfLines={4} ellipsizeMode='tail' style={style.description.style}>
                     {item.description}
                 </Text>
-            </TouchableOpacity>
+            </Pressable>
         </View>
     }
 }

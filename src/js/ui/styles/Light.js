@@ -11,7 +11,7 @@ const primaryColor = "#005cb9";
 const inactiveColor = 'rgb(65, 65, 65)';
 const borderColor = 'rgb(65, 65, 65)';
 
-export default Light = Utils.mergeStyles(Common, {
+const Light = Utils.mergeStyles(Common, {
     root: {
         backgroundColor: bgColor
     },
@@ -99,3 +99,5 @@ export default Light = Utils.mergeStyles(Common, {
         }
     },
 });
+
+export default Light

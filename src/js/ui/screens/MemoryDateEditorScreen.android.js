@@ -7,8 +7,6 @@ import RNDateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import LoadingView from "../components/LoadingView";
 
-
-
 const style = {
   safeArea: {
     style: {

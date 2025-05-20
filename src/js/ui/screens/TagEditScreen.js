@@ -1,13 +1,11 @@
-import * as React from 'react';
-import { View, Text, Button, TextInput, SafeAreaView, StyleSheet } from 'react-native';
-import Styles from '../styles';
-import core from '../../core';
 import { observer } from 'mobx-react';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import * as React from 'react';
+import { Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import core from '../../core';
 import ClearTextButton from '../components/ClearTextButton';
-import { toJS } from 'mobx';
 import SquareButton from '../components/SquareButton';
+import Styles from '../styles';
 
 
 const style = {
@@ -196,9 +194,9 @@ export default class TagEditScreen extends React.Component {
                 icon = 'check-square'
             }
             return (
-                <TouchableOpacity key={color} style={style.tag.view.style} onPress={() => this.updateTagColor(color)}>
+                <Pressable key={color} style={style.tag.view.style} onPress={() => this.updateTagColor(color)}>
                     <Icon style={style.tag.icon.style} name={icon} size={style.tag.icon.size} color={color} />
-                </TouchableOpacity>
+                </Pressable>
             )
         })
     }

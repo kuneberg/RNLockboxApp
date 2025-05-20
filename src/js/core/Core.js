@@ -1,16 +1,15 @@
+import { Buffer } from 'buffer';
 import * as React from 'react';
-import State from "./State";
 import ApiClient from './ApiClient';
-import {Buffer} from 'buffer';
+import State from "./State";
 
-import Zeroconf from 'react-native-zeroconf'
+import { toJS } from 'mobx';
 import moment from 'moment';
-import {toJS} from 'mobx';
+import Zeroconf from 'react-native-zeroconf';
 import ApiUnavailableError from "./ApiUnavailableError";
-import core from "./index";
 
 // const
-
+// /Users/maks/Library/Android/sdk
 var RNFS = require('react-native-fs');
 
 // let zeroconf = null
@@ -87,10 +86,19 @@ export default class Core {
             this._state.lockboxHosts = [
                 {
                     name: 'Cloud version (Beta)',
-                    address: '44.214.216.23',
+                    address: '192.168.68.71',
                     info: {
-                        supportsLock: false
-                     }
+                           supportsLock: false
+                        }
+                },
+                {
+                    name: 'Cloud version (AWS)',
+                    address: 'api.memoresse.com',
+                    port: 443,
+                    protocol: 'https',
+                    info: {
+                           supportsLock: false
+                        }
                 },
                 // {
                 //     name: 'Maks\'s Lockbox',
@@ -131,7 +139,7 @@ export default class Core {
         console.log('host: ' + host.address)
         this.state.lockboxHost = host.address;
         this.state.supportsLock = host.info.supportsLock
-        this.api.setHost(host.address);
+        this.api.setHost(host.address, host.protocol, host.port);
     }
 
     async signIn(email, password) {
@@ -305,7 +313,7 @@ export default class Core {
             if (id) {
                 await this._deleteMemory(id);
                 await this._loadMemories();
-                this.navigate('MemoriesList');
+                this.navigateReset('Home');
             }
         } catch (e) {
             this.navigateReset('ApiUnavailable');
@@ -519,6 +527,8 @@ export default class Core {
                     {
                         name: info.data.name,
                         address,
+                        protocol: 'http',
+                        port: 8084,
                         info: info.data
                     },
                 ]

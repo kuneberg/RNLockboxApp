@@ -23,9 +23,20 @@ export default class State {
     @observable _tags = null
 
     @observable _lockboxHosts = [
+        // {
+        //     name: 'Local Test',
+        //     address: '192.168.68.71',
+        //     protocol: 'http',
+        //     port: 8084,
+        //     info: {
+        //            supportsLock: false
+        //         }
+        // },
         {
-            name: 'Cloud version (Beta)',
-            address: '44.214.216.23',
+            name: 'Cloud',
+            address: 'api.memoresse.com',
+            protocol: 'https',
+            port: 443,
             info: {
                    supportsLock: false
                 }

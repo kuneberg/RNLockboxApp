@@ -1,4 +1,4 @@
-import { observable, action, makeAutoObservable } from "mobx"
+import { makeAutoObservable, observable } from "mobx";
 
 
 export default class SetupState {

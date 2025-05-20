@@ -1,13 +1,12 @@
-import * as React from 'react';
-import { SafeAreaView, Text, View, Platform, KeyboardAvoidingView, ScrollView } from "react-native";
-import Styles from '../styles';
-import core from '../../core';
 import { observer } from 'mobx-react';
+import * as React from 'react';
+import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, View } from "react-native";
+import core from '../../core';
+import ClearButton from '../components/ClearButton';
+import ErrorView from '../components/ErrorView';
 import FormTextInput from '../components/FormTextImput';
 import SquareButton from '../components/SquareButton';
-import ErrorView from '../components/ErrorView';
-import ClearTextButton from "../components/ClearTextButton";
-import ClearButton from '../components/ClearButton';
+import Styles from '../styles';
 
 
 const style = {

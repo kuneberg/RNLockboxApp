@@ -1,10 +1,10 @@
+import moment from 'moment';
 import * as React from 'react';
-import {View, Text, Image, ScrollView, TouchableOpacity} from 'react-native';
-import Styles from '../styles';
+import { Image, Pressable, ScrollView, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import moment from 'moment'
-import Tag from './Tag';
 import core from '../../core';
+import Styles from '../styles';
+import Tag from './Tag';
 
 
 const style = {
@@ -136,19 +136,20 @@ export default class MemoryView extends React.Component {
     renderImageItem(carouselItem, itemHeight, memoryItem) {
         let item = carouselItem.item;
         let source = core.createThumbSource(item)
-        return <TouchableOpacity onPress={()=>this.viewImage(item)}><View key={item.fileId} style={style.imageFrame.style}>
+        return <Pressable key={item.fileId} onPress={() => this.viewImage(item)}><View key={item.fileId} style={style.imageFrame.style}>
             <Image style={style.image.style} source={source} />
         </View>
-      </TouchableOpacity>
+        </Pressable>
     }
 
     renderVideoItem(carouselItem, itemHeight, memoryItem) {
         let item = carouselItem.item;
         let source = core.createThumbSource(item)
-        return <TouchableOpacity onPress={()=>this.viewVideo(item)}><View key={item.fileId} style={style.imageFrame.style}>
-            <Image style={style.image.style} source={source} />
-        </View>
-      </TouchableOpacity>
+        return <Pressable key={item.fileId} onPress={() => this.viewVideo(item)}>
+            <View style={style.imageFrame.style}>
+                <Image style={style.image.style} source={source} />
+            </View>
+        </Pressable>
     }
 
     renderUnknownItem(carouselItem, itemHeight, memoryItem) {
@@ -213,15 +214,4 @@ export default class MemoryView extends React.Component {
             </View>
         </ScrollView>
     }
-
-    /*
-watchman watch-del-all &&
-rm -rf $TMPDIR/react-native-packager-cache-* &&
-rm -rf $TMPDIR/metro-bundler-cache-* &&
-rm -rf node_modules/
-&& npm cache clean --force &&
-npm install &&
-npm start -- --reset-cache
-
-    */
 }

@@ -1,7 +1,5 @@
 import * as React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import Icon from 'react-native-vector-icons/FontAwesome';
-import Styles from '../styles';
+import { Text, View } from "react-native";
 
 
 const style = {

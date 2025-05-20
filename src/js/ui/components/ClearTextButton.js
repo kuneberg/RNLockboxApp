@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import Styles from '../styles';
-import {Text} from 'react-native';
+import {Pressable, Text} from 'react-native';
 
 const style = {
     text: {
@@ -20,12 +19,12 @@ export default class ClearTextButton extends React.Component {
         let disabled = this.props.disabled || false
         let textStyle = disabled? [style.text.style, {color: Styles.inactiveColor}] : style.text.style;
         return (
-            <TouchableOpacity
+            <Pressable
                 style={{ padding: 5 }}
                 disabled={disabled}
                 onPress={() => onPress()}>
                 <Text style={textStyle}>{title}</Text>
-            </TouchableOpacity>
+            </Pressable>
         )
     }
 }
